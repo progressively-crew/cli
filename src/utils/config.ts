@@ -15,3 +15,11 @@ export async function updateConfig(
 
   await fs.writeJSON(CONFIG_FILE_PATH, finalConfig);
 }
+
+type Config = {
+  access_token: string;
+};
+
+export function readConfig(): Promise<Config> {
+  return fs.readJSON(CONFIG_FILE_PATH);
+}
