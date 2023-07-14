@@ -1,6 +1,6 @@
 import { Args, Command, Flags, ux } from "@oclif/core";
 import axios, { AxiosError } from "axios";
-import * as fs from "node:fs/promises";
+import { updateConfig } from "../utils/config";
 
 export default class Login extends Command {
   static description = "describe the command here";
@@ -30,7 +30,7 @@ export default class Login extends Command {
         password,
       });
 
-      await fs.writeFile(`${process.cwd()}/config.json`, JSON.stringify(data));
+      await updateConfig(data);
 
       this.log("Token créé");
     } catch (error) {
