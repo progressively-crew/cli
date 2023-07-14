@@ -10,3 +10,7 @@
 /yarn.lock
 node_modules
 oclif.manifest.json
+
+
+# TODO: put config.json elsewhere maybe
+config.json
