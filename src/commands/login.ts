@@ -1,6 +1,6 @@
 import { Args, Command, Flags, ux } from "@oclif/core";
 import { AxiosError } from "axios";
-import { updateConfig } from "../utils/config";
+import { getConfigPath, updateConfig } from "../utils/config";
 import { getHttpClient } from "../utils/http";
 
 export default class Login extends Command {
@@ -20,7 +20,7 @@ export default class Login extends Command {
   };
 
   public async run(): Promise<void> {
-    const username = await ux.prompt("What is your username?");
+    const email = await ux.prompt("What is your email?");
     const password = await ux.prompt("What is your passowrd?", {
       type: "hide",
     });
@@ -29,13 +29,15 @@ export default class Login extends Command {
 
     try {
       const { data } = await httpClient.post("/auth/login", {
-        username,
+        username: email,
         password,
       });
 
       await updateConfig(data);
 
-      this.log("Token créé");
+      this.log(
+        `Your access token has been stored in the config located at ${getConfigPath()}`
+      );
     } catch (error) {
       if (error instanceof AxiosError) {
         switch (error.response?.status) {
@@ -52,7 +54,6 @@ export default class Login extends Command {
           default: {
             this.log("Unknown issue");
             this.error(error);
-            break;
           }
         }
       }

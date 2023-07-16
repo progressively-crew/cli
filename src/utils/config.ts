@@ -7,6 +7,10 @@ type Config = {
   project_id?: string;
 };
 
+export function getConfigPath(): string {
+  return CONFIG_FILE_PATH;
+}
+
 export async function updateConfig(newConfig: Config): Promise<void> {
   let finalConfig = newConfig;
 
