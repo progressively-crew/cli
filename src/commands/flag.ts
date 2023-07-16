@@ -1,7 +1,7 @@
 import { Args, Command, Flags } from "@oclif/core";
 import { select } from "@inquirer/prompts";
 import { readConfig } from "../utils/config";
-import axios from "axios";
+import { getHttpClient } from "../utils/http";
 
 export default class Flag extends Command {
   static description = "describe the command here";
@@ -21,14 +21,10 @@ export default class Flag extends Command {
 
   public async run(): Promise<void> {
     const config = await readConfig();
+    const httpClient = await getHttpClient(true);
 
-    const { data: flags } = await axios.get(
-      `http://localhost:4000/projects/${config.project_id}/flags`,
-      {
-        headers: {
-          Authorization: `Bearer ${config.access_token}`,
-        },
-      }
+    const { data: flags } = await httpClient.get(
+      `/projects/${config.project_id}/flags`
     );
 
     const choices = flags.map((flag: any) => ({
@@ -42,14 +38,7 @@ export default class Flag extends Command {
       choices,
     });
 
-    const { data: flag } = await axios.get(
-      `http://localhost:4000/flags/${flagId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${config.access_token}`,
-        },
-      }
-    );
+    const { data: flag } = await httpClient.get(`/flags/${flagId}`);
 
     const environmentChoices = flag.flagEnvironment.map((flagEnv: any) => ({
       name: flagEnv.environmentId,
@@ -61,17 +50,13 @@ export default class Flag extends Command {
       choices: environmentChoices,
     });
 
-    const { data } = await axios.put(
-      `http://localhost:4000/environments/${environmentId}/flags/${flagId}`,
+    const { data } = await httpClient.put(
+      `/environments/${environmentId}/flags/${flagId}`,
       {
         status: "ACTIVATED",
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${config.access_token}`,
-        },
       }
     );
+
     console.log("🚀 ~ file: flag.ts:75 ~ Flag ~ run ~ response:", data);
   }
 }

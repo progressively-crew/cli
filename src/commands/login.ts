@@ -1,6 +1,7 @@
 import { Args, Command, Flags, ux } from "@oclif/core";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { updateConfig } from "../utils/config";
+import { getHttpClient } from "../utils/http";
 
 export default class Login extends Command {
   static description = "describe the command here";
@@ -24,8 +25,10 @@ export default class Login extends Command {
       type: "hide",
     });
 
+    const httpClient = await getHttpClient();
+
     try {
-      const { data } = await axios.post("http://localhost:4000/auth/login", {
+      const { data } = await httpClient.post("/auth/login", {
         username,
         password,
       });
@@ -42,12 +45,13 @@ export default class Login extends Command {
           }
 
           case 404: {
-            this.log("🚀 ~ file: login.ts:27 ~ Login ~ run ~ error:");
+            this.log("Endpoint cound't be found");
             break;
           }
 
           default: {
-            this.log("🚀 ~ file: login.ts:27 ~ Login ~ run ~ error:");
+            this.log("Unknown issue");
+            this.error(error);
             break;
           }
         }

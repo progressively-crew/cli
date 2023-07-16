@@ -1,7 +1,7 @@
 import { Args, Command, Flags } from "@oclif/core";
-import axios from "axios";
 import { select } from "@inquirer/prompts";
-import { readConfig, updateConfig } from "../utils/config";
+import { updateConfig } from "../utils/config";
+import { getHttpClient } from "../utils/http";
 
 export default class Project extends Command {
   static description = "describe the command here";
@@ -22,13 +22,9 @@ export default class Project extends Command {
   public async run(): Promise<void> {
     // const { args, flags } = await this.parse(Project);
 
-    const config = await readConfig();
+    const httpClient = await getHttpClient(true);
 
-    const { data } = await axios.get("http://localhost:4000/projects", {
-      headers: {
-        Authorization: `Bearer ${config.access_token}`,
-      },
-    });
+    const { data } = await httpClient.get("/projects");
 
     const choices = data.map(({ project }: any) => ({
       name: project.name,
