@@ -5,6 +5,8 @@ const CONFIG_FILE_PATH = `${process.cwd()}/config.json`;
 type Config = {
   access_token?: string;
   project_id?: string;
+  base_url?: string;
+  email?: string;
 };
 
 export function getConfigPath(): string {
