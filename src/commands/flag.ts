@@ -1,4 +1,5 @@
 import { Args, Command, Flags } from "@oclif/core";
+import { select } from "@inquirer/prompts";
 import { readConfig } from "../utils/config";
 import axios from "axios";
 
@@ -19,11 +20,9 @@ export default class Flag extends Command {
   };
 
   public async run(): Promise<void> {
-    const { args, flags } = await this.parse(Flag);
-
     const config = await readConfig();
 
-    const { data } = await axios.get(
+    const { data: flags } = await axios.get(
       `http://localhost:4000/projects/${config.project_id}/flags`,
       {
         headers: {
@@ -32,6 +31,47 @@ export default class Flag extends Command {
       }
     );
 
-    console.log("🚀 ~ file: flag.ts:29 ~ Flag ~ run ~ data:", data);
+    const choices = flags.map((flag: any) => ({
+      name: flag.name,
+      value: flag.uuid,
+      description: flag.description,
+    }));
+
+    const flagId = await select({
+      message: "Which flag do you want to update ?",
+      choices,
+    });
+
+    const { data: flag } = await axios.get(
+      `http://localhost:4000/flags/${flagId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${config.access_token}`,
+        },
+      }
+    );
+
+    const environmentChoices = flag.flagEnvironment.map((flagEnv: any) => ({
+      name: flagEnv.environmentId,
+      value: flagEnv.environmentId,
+    }));
+
+    const environmentId = await select({
+      message: "Which env do you want to update?",
+      choices: environmentChoices,
+    });
+
+    const { data } = await axios.put(
+      `http://localhost:4000/environments/${environmentId}/flags/${flagId}`,
+      {
+        status: "ACTIVATED",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${config.access_token}`,
+        },
+      }
+    );
+    console.log("🚀 ~ file: flag.ts:75 ~ Flag ~ run ~ response:", data);
   }
 }
