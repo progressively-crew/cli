@@ -8,16 +8,10 @@ import { readConfig } from "./config";
 export async function getHttpClient(
   withAuth?: boolean
 ): Promise<AxiosInstance> {
-  let accessToken;
-
-  if (withAuth) {
-    const { access_token } = await readConfig();
-
-    accessToken = access_token;
-  }
+  const { access_token: accessToken, base_url: baseUrl } = await readConfig();
 
   return axios.create({
-    baseURL: "http://localhost:4000",
+    baseURL: baseUrl,
     headers: {
       Authorization: withAuth ? `Bearer ${accessToken}` : undefined,
     },

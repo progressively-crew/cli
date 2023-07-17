@@ -20,7 +20,9 @@ export default class Login extends Command {
   };
 
   public async run(): Promise<void> {
-    const email = await ux.prompt("What is your email?");
+    const email = await ux.prompt("What is your email?", {
+      default: "themaximeblanc@protonmail.com",
+    });
     const password = await ux.prompt("What is your passowrd?", {
       type: "hide",
     });
@@ -28,12 +30,29 @@ export default class Login extends Command {
     const httpClient = await getHttpClient();
 
     try {
-      const { data } = await httpClient.post("/auth/login", {
+      const {
+        data: { access_token: accessToken },
+        headers,
+      } = await httpClient.post("/auth/login", {
         username: email,
         password,
       });
 
-      await updateConfig(data);
+      const refreshTokenCookie = headers["set-cookie"]
+        ?.find((cookie: string) => cookie.includes("refresh-token"))
+        ?.split(";")
+        .find((str: string) => str.includes("refresh-token"));
+
+      const refreshTokenMatch = /refresh-token=(?<token>.*)/.exec(
+        refreshTokenCookie || ""
+      );
+
+      const refreshToken = refreshTokenMatch?.groups?.token || "";
+
+      await updateConfig({
+        access_token: accessToken,
+        refresh_token: refreshToken,
+      });
 
       this.log(
         `Your access token has been stored in the config located at ${getConfigPath()}`

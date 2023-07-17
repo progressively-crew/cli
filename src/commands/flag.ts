@@ -23,9 +23,10 @@ export default class Flag extends Command {
     const config = await readConfig();
     const httpClient = await getHttpClient(true);
 
-    const { data: flags } = await httpClient.get(
-      `/projects/${config.project_id}/flags`
-    );
+    const [{ data: flags }, { data: environments }] = await Promise.all([
+      httpClient.get(`/projects/${config.project_id}/flags`),
+      httpClient.get(`/projects/${config.project_id}/environments`),
+    ]);
 
     const choices = flags.map((flag: any) => ({
       name: flag.name,
