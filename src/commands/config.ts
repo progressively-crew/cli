@@ -1,7 +1,5 @@
 import { Command, ux } from "@oclif/core";
-import { getConfigPath, readConfig, updateConfig } from "../utils/config";
-import { AxiosError } from "axios";
-import { getHttpClient } from "../utils/http";
+import { readConfig, updateConfig } from "../utils/config";
 
 export default class Config extends Command {
   static description = "Configure the Progressively CLI";
@@ -26,58 +24,8 @@ export default class Config extends Command {
       base_url: baseUrl,
     });
 
-    /**
-     * AUTHENTICATION
-     */
+    await this.config.runCommand("login");
 
-    const email = await ux.prompt("What is your email?", {
-      default: config.email,
-    });
-
-    await updateConfig({
-      email,
-    });
-
-    const password = await ux.prompt("What is your password?", {
-      type: "hide",
-    });
-
-    const httpClient = await getHttpClient();
-
-    try {
-      ux.action.start("Authentication");
-
-      const { data } = await httpClient.post("/auth/login", {
-        username: email,
-        password,
-      });
-
-      ux.action.stop();
-
-      await updateConfig(data);
-
-      this.log(
-        `Your access token has been stored in the config located at ${getConfigPath()}`
-      );
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        switch (error.response?.status) {
-          case 401: {
-            this.log("Unauthorized, check the credentials you provided");
-            break;
-          }
-
-          case 404: {
-            this.log("Endpoint cound't be found");
-            break;
-          }
-
-          default: {
-            this.log("Unknown issue");
-            this.error(error);
-          }
-        }
-      }
-    }
+    await this.config.runCommand("project");
   }
 }

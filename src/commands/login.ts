@@ -1,6 +1,6 @@
 import { Args, Command, Flags, ux } from "@oclif/core";
 import { AxiosError } from "axios";
-import { getConfigPath, updateConfig } from "../utils/config";
+import { getConfigPath, readConfig, updateConfig } from "../utils/config";
 import { getHttpClient } from "../utils/http";
 
 export default class Login extends Command {
@@ -20,16 +20,25 @@ export default class Login extends Command {
   };
 
   public async run(): Promise<void> {
+    const config = await readConfig();
+
     const email = await ux.prompt("What is your email?", {
-      default: "themaximeblanc@protonmail.com",
+      default: config.email,
     });
-    const password = await ux.prompt("What is your passowrd?", {
+
+    await updateConfig({
+      email,
+    });
+
+    const password = await ux.prompt("What is your password?", {
       type: "hide",
     });
 
     const httpClient = await getHttpClient();
 
     try {
+      ux.action.start("Authentication");
+
       const {
         data: { access_token: accessToken },
         headers,
@@ -48,6 +57,13 @@ export default class Login extends Command {
       );
 
       const refreshToken = refreshTokenMatch?.groups?.token || "";
+
+      await updateConfig({
+        access_token: accessToken,
+        refresh_token: refreshToken,
+      });
+
+      ux.action.stop();
 
       await updateConfig({
         access_token: accessToken,

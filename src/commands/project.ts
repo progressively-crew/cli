@@ -24,9 +24,9 @@ export default class Project extends Command {
 
     const httpClient = await getHttpClient(true);
 
-    const { data } = await httpClient.get("/projects");
+    const { data: projects } = await httpClient.get("/projects");
 
-    const choices = data.map(({ project }: any) => ({
+    const choices = projects.map(({ project }: any) => ({
       name: project.name,
       value: project.uuid,
     }));
@@ -41,7 +41,11 @@ export default class Project extends Command {
         project_id: projectId,
       });
 
-      this.log(`Le projet a été mis a jour`);
+      const selectedProject = projects.find(
+        (project: any) => project.projectId === projectId
+      );
+
+      this.log(`Current project : ${selectedProject.project.name}`);
     }
   }
 }
