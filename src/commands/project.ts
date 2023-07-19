@@ -1,8 +1,8 @@
 import { Command, Flags, ux } from "@oclif/core";
+import { color } from "@oclif/color";
 import { select, confirm } from "@inquirer/prompts";
 import { updateConfig } from "../utils/config";
 import { getHttpClient } from "../utils/http";
-import color from "@oclif/color";
 
 export default class Project extends Command {
   static description = "describe the command here";
@@ -10,6 +10,10 @@ export default class Project extends Command {
   static examples = ["<%= config.bin %> <%= command.id %>"];
 
   static flags = {
+    delete: Flags.boolean({
+      char: "D",
+      description: "Delete a project",
+    }),
     create: Flags.boolean({
       char: "C",
       description: "Create a project before selection",
@@ -24,6 +28,28 @@ export default class Project extends Command {
     const httpClient = await getHttpClient(true);
 
     const { data: projects } = await httpClient.get("/projects");
+
+    if (projects.length > 0 && flags.delete) {
+      const projectId = await select({
+        message: "Which project do you want to delete",
+        choices: projects.map(({ project }: any) => ({
+          name: project.name,
+          value: project.uuid,
+        })),
+      });
+
+      try {
+        const { data: project } = await httpClient.delete(
+          `/projects/${projectId}`
+        );
+
+        this.log(`${color.bold(project.name)} project has been deleted`);
+      } catch (error) {
+        this.error(error as Error);
+      }
+
+      return;
+    }
 
     if (projects.length === 0 || flags.create) {
       if (projects.length === 0) {
@@ -66,10 +92,13 @@ export default class Project extends Command {
       value: project.uuid,
     }));
 
-    const projectId: string = await select({
-      message: "Which project do you want to update",
-      choices: choices,
-    });
+    const projectId: string =
+      choices.length === 1
+        ? choices[0].value
+        : await select({
+            message: "Which project do you want to manage",
+            choices: choices,
+          });
 
     if (projectId) {
       updateConfig({
@@ -77,7 +106,7 @@ export default class Project extends Command {
       });
 
       const selectedProject = projects.find(
-        (project: any) => project.projectId === projectId
+        ({ project }: any) => project.uuid === projectId
       );
 
       this.log(`Current project : ${selectedProject.project.name}`);
