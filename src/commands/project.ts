@@ -2,6 +2,7 @@ import { Command, Flags, ux } from "@oclif/core";
 import { select, confirm } from "@inquirer/prompts";
 import { updateConfig } from "../utils/config";
 import { getHttpClient } from "../utils/http";
+import color from "@oclif/color";
 
 export default class Project extends Command {
   static description = "describe the command here";
@@ -48,6 +49,16 @@ export default class Project extends Command {
       });
 
       projects.push({ project: newProject });
+    }
+
+    if (projects.length === 0) {
+      this.log(
+        // TODO: make command suggestion dynamic
+        `You must create a project before being able to select one. You can run ${color.bold(
+          "progressively project --create"
+        )}`
+      );
+      return;
     }
 
     const choices = projects.map(({ project }: any) => ({
