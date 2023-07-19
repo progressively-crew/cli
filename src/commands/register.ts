@@ -22,7 +22,9 @@ export default class Register extends Command {
 
     const fullname = await ux.prompt("What is your fullname?");
     const email = await ux.prompt("What is your email?");
-    const password = await ux.prompt("What is your password?");
+    const password = await ux.prompt("What is your password?", {
+      type: "hide",
+    });
 
     try {
       const response = await httpClient.post("/auth/register", {
