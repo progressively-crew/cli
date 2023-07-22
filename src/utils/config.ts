@@ -2,7 +2,7 @@ import * as fs from "fs-extra";
 
 const CONFIG_FILE_PATH = `${process.cwd()}/config.json`;
 
-type Config = {
+export type Config = {
   access_token?: string;
   refresh_token?: string;
   project_id?: string;

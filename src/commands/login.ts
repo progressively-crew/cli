@@ -1,7 +1,7 @@
 import { Args, Command, Flags, ux } from "@oclif/core";
 import { AxiosError } from "axios";
 import { getConfigPath, readConfig, updateConfig } from "../utils/config";
-import { getHttpClient } from "../utils/http";
+import { login } from "../utils/auth";
 
 export default class Login extends Command {
   static description = "describe the command here";
@@ -34,29 +34,14 @@ export default class Login extends Command {
       type: "hide",
     });
 
-    const httpClient = await getHttpClient();
-
     try {
       ux.action.start("Authentication");
 
-      const {
-        data: { access_token: accessToken },
-        headers,
-      } = await httpClient.post("/auth/login", {
-        username: email,
-        password,
-      });
-
-      const refreshTokenCookie = headers["set-cookie"]
-        ?.find((cookie: string) => cookie.includes("refresh-token"))
-        ?.split(";")
-        .find((str: string) => str.includes("refresh-token"));
-
-      const refreshTokenMatch = /refresh-token=(?<token>.*)/.exec(
-        refreshTokenCookie || ""
-      );
-
-      const refreshToken = refreshTokenMatch?.groups?.token || "";
+      const { access_token: accessToken, refresh_token: refreshToken } =
+        await login({
+          email,
+          password,
+        });
 
       await updateConfig({
         access_token: accessToken,
