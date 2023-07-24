@@ -1,4 +1,5 @@
-import { Args, Command, Flags } from "@oclif/core";
+import { Command } from "@oclif/core";
+import { refreshAccessToken } from "../../utils/auth";
 
 export default class Hello extends Command {
   static description = "Say hello";
@@ -9,28 +10,11 @@ hello friend from oclif! (./src/commands/hello/index.ts)
 `,
   ];
 
-  static flags = {
-    from: Flags.string({
-      char: "f",
-      description: "Who is saying hello",
-      required: true,
-    }),
-  };
+  static flags = {};
 
-  static args = {
-    person: Args.string({
-      description: "Person to say hello to",
-      required: true,
-    }),
-  };
+  static args = {};
 
   async run(): Promise<void> {
-    const { args, flags } = await this.parse(Hello);
-
-    this.log(
-      `hello ${args.person} from ${flags.from}! (./src/commands/hello/index.ts)`
-    );
-
-    console.log("hello");
+    await refreshAccessToken();
   }
 }
