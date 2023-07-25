@@ -1,18 +1,28 @@
-oclif-hello-world
-=================
+# @progressively/cli
 
-oclif example Hello World CLI
+Progressively is a simple, lightweight and OpenSource feature flag software.
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![CircleCI](https://circleci.com/gh/oclif/hello-world/tree/main.svg?style=shield)](https://circleci.com/gh/oclif/hello-world/tree/main)
-[![GitHub license](https://img.shields.io/github/license/oclif/hello-world)](https://github.com/oclif/hello-world/blob/main/LICENSE)
+This repository contains the CLI
+
+- [x] Administrator account creation
+- [x] Authentication
+- [x] Project creation/deletion
+- [ ] Flag manipulation
+- [ ] Types generation
+
+## Summary
 
 <!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
+
+- [@progressively/cli](#progressivelycli)
+- [Usage](#usage)
+- [Commands](#commands)
 <!-- tocstop -->
+
 # Usage
+
 <!-- usage -->
+
 ```sh-session
 $ npm install -g @progressively/cli
 $ progressively COMMAND
@@ -24,35 +34,79 @@ USAGE
   $ progressively COMMAND
 ...
 ```
-<!-- usagestop -->
-# Commands
-<!-- commands -->
-* [`progressively hello PERSON`](#progressively-hello-person)
-* [`progressively hello world`](#progressively-hello-world)
-* [`progressively help [COMMANDS]`](#progressively-help-commands)
-* [`progressively plugins`](#progressively-plugins)
-* [`progressively plugins:install PLUGIN...`](#progressively-pluginsinstall-plugin)
-* [`progressively plugins:inspect PLUGIN...`](#progressively-pluginsinspect-plugin)
-* [`progressively plugins:install PLUGIN...`](#progressively-pluginsinstall-plugin-1)
-* [`progressively plugins:link PLUGIN`](#progressively-pluginslink-plugin)
-* [`progressively plugins:uninstall PLUGIN...`](#progressively-pluginsuninstall-plugin)
-* [`progressively plugins:uninstall PLUGIN...`](#progressively-pluginsuninstall-plugin-1)
-* [`progressively plugins:uninstall PLUGIN...`](#progressively-pluginsuninstall-plugin-2)
-* [`progressively plugins update`](#progressively-plugins-update)
 
-## `progressively hello PERSON`
+<!-- usagestop -->
+
+# Commands
+
+<!-- commands -->
+
+- [`progressively config`](#progressively-config)
+- [`progressively flag [FILE]`](#progressively-flag-file)
+- [`progressively hello`](#progressively-hello)
+- [`progressively hello world`](#progressively-hello-world)
+- [`progressively help [COMMANDS]`](#progressively-help-commands)
+- [`progressively login [FILE]`](#progressively-login-file)
+- [`progressively plugins`](#progressively-plugins)
+- [`progressively plugins:install PLUGIN...`](#progressively-pluginsinstall-plugin)
+- [`progressively plugins:inspect PLUGIN...`](#progressively-pluginsinspect-plugin)
+- [`progressively plugins:install PLUGIN...`](#progressively-pluginsinstall-plugin-1)
+- [`progressively plugins:link PLUGIN`](#progressively-pluginslink-plugin)
+- [`progressively plugins:uninstall PLUGIN...`](#progressively-pluginsuninstall-plugin)
+- [`progressively plugins:uninstall PLUGIN...`](#progressively-pluginsuninstall-plugin-1)
+- [`progressively plugins:uninstall PLUGIN...`](#progressively-pluginsuninstall-plugin-2)
+- [`progressively plugins update`](#progressively-plugins-update)
+- [`progressively project`](#progressively-project)
+- [`progressively register [FILE]`](#progressively-register-file)
+
+## `progressively config`
+
+Configure the Progressively CLI
+
+```
+USAGE
+  $ progressively config
+
+DESCRIPTION
+  Configure the Progressively CLI
+
+EXAMPLES
+  $ progressively config
+```
+
+_See code: [dist/commands/config.ts](https://github.com/jean-smaug/cli/blob/v0.0.0/dist/commands/config.ts)_
+
+## `progressively flag [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ progressively flag [FILE] [-n <value>] [-f]
+
+ARGUMENTS
+  FILE  file to read
+
+FLAGS
+  -f, --force
+  -n, --name=<value>  name to print
+
+DESCRIPTION
+  describe the command here
+
+EXAMPLES
+  $ progressively flag
+```
+
+_See code: [dist/commands/flag.ts](https://github.com/jean-smaug/cli/blob/v0.0.0/dist/commands/flag.ts)_
+
+## `progressively hello`
 
 Say hello
 
 ```
 USAGE
-  $ progressively hello PERSON -f <value>
-
-ARGUMENTS
-  PERSON  Person to say hello to
-
-FLAGS
-  -f, --from=<value>  (required) Who is saying hello
+  $ progressively hello
 
 DESCRIPTION
   Say hello
@@ -99,6 +153,30 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.11/src/commands/help.ts)_
+
+## `progressively login [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ progressively login [FILE] [-n <value>] [-f]
+
+ARGUMENTS
+  FILE  file to read
+
+FLAGS
+  -f, --force
+  -n, --name=<value>  name to print
+
+DESCRIPTION
+  describe the command here
+
+EXAMPLES
+  $ progressively login
+```
+
+_See code: [dist/commands/login.ts](https://github.com/jean-smaug/cli/blob/v0.0.0/dist/commands/login.ts)_
 
 ## `progressively plugins`
 
@@ -151,7 +229,7 @@ ALIASES
   $ progressively plugins add
 
 EXAMPLES
-  $ progressively plugins:install myplugin 
+  $ progressively plugins:install myplugin
 
   $ progressively plugins:install https://github.com/someuser/someplugin
 
@@ -214,7 +292,7 @@ ALIASES
   $ progressively plugins add
 
 EXAMPLES
-  $ progressively plugins:install myplugin 
+  $ progressively plugins:install myplugin
 
   $ progressively plugins:install https://github.com/someuser/someplugin
 
@@ -332,4 +410,50 @@ FLAGS
 DESCRIPTION
   Update installed plugins.
 ```
+
+## `progressively project`
+
+describe the command here
+
+```
+USAGE
+  $ progressively project [-D] [-C]
+
+FLAGS
+  -C, --create  Create a project before selection
+  -D, --delete  Delete a project
+
+DESCRIPTION
+  describe the command here
+
+EXAMPLES
+  $ progressively project
+```
+
+_See code: [dist/commands/project.ts](https://github.com/jean-smaug/cli/blob/v0.0.0/dist/commands/project.ts)_
+
+## `progressively register [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ progressively register [FILE] [-n <value>] [-f]
+
+ARGUMENTS
+  FILE  file to read
+
+FLAGS
+  -f, --force
+  -n, --name=<value>  name to print
+
+DESCRIPTION
+  describe the command here
+
+EXAMPLES
+  $ progressively register
+```
+
+_See code: [dist/commands/register.ts](https://github.com/jean-smaug/cli/blob/v0.0.0/dist/commands/register.ts)_
+
 <!-- commandsstop -->
