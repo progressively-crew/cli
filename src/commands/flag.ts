@@ -1,5 +1,5 @@
-import { Args, Command, Flags } from "@oclif/core";
-import { select } from "@inquirer/prompts";
+import { Command, Flags } from "@oclif/core";
+import { input, select } from "@inquirer/prompts";
 import { readConfig } from "../utils/config";
 import { getHttpClient } from "../utils/http";
 
@@ -9,26 +9,49 @@ export default class Flag extends Command {
   static examples = ["<%= config.bin %> <%= command.id %>"];
 
   static flags = {
-    // flag with a value (-n, --name=VALUE)
-    name: Flags.string({ char: "n", description: "name to print" }),
-    // flag with no value (-f, --force)
-    force: Flags.boolean({ char: "f" }),
+    create: Flags.boolean({
+      char: "C",
+      description: "Create a flag and update existing",
+    }),
+    "create-only": Flags.boolean({
+      description: "Only create a flag",
+    }),
   };
 
-  static args = {
-    file: Args.string({ description: "file to read" }),
-  };
+  static args = {};
 
   public async run(): Promise<void> {
+    const { flags } = await this.parse(Flag);
+
     const config = await readConfig();
     const httpClient = await getHttpClient(true);
 
-    const [{ data: flags }, { data: environments }] = await Promise.all([
+    if (flags.create || flags["create-only"]) {
+      const name = await input({ message: "What is the name of the flag" });
+      const description = await input({
+        message: "What is the description of the flag",
+      });
+
+      try {
+        await httpClient.post(`/projects/${config.project_id}/flags`, {
+          name,
+          description,
+        });
+      } catch (error) {
+        this.error(error as Error);
+      }
+
+      if (flags["create-only"]) {
+        return;
+      }
+    }
+
+    const [{ data: featureFlags }, { data: environments }] = await Promise.all([
       httpClient.get(`/projects/${config.project_id}/flags`),
       httpClient.get(`/projects/${config.project_id}/environments`),
     ]);
 
-    const choices = flags.map((flag: any) => ({
+    const choices = featureFlags.map((flag: any) => ({
       name: flag.name,
       value: flag.uuid,
       description: flag.description,
