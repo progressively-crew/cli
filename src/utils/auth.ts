@@ -1,4 +1,4 @@
-import { Config } from "./config";
+import { Config, readConfig } from "./config";
 import { getHttpClient } from "./http";
 
 export async function login({
@@ -11,26 +11,32 @@ export async function login({
   const httpClient = await getHttpClient();
 
   const {
-    data: { access_token: accessToken },
-    headers,
+    data: { access_token, refresh_token },
   } = await httpClient.post("/auth/login", {
     username: email,
     password,
   });
 
-  const refreshTokenCookie = headers["set-cookie"]
-    ?.find((cookie: string) => cookie.includes("refresh-token"))
-    ?.split(";")
-    .find((str: string) => str.includes("refresh-token"));
-
-  const refreshTokenMatch = /refresh-token=(?<token>.*)/.exec(
-    refreshTokenCookie || ""
-  );
-
-  const refreshToken = refreshTokenMatch?.groups?.token || "";
-
   return {
-    access_token: accessToken,
-    refresh_token: refreshToken,
+    access_token,
+    refresh_token,
   };
+}
+
+export async function refreshAccessToken(): Promise<{
+  access_token: string;
+  refresh_token: string;
+}> {
+  const httpClient = await getHttpClient(true);
+  const { refresh_token: currentRefreshToken } = await readConfig();
+
+  const {
+    data: { access_token, refresh_token },
+  } = await httpClient.get("/auth/refresh", {
+    headers: {
+      "refresh-token": currentRefreshToken,
+    },
+  });
+
+  return { access_token, refresh_token };
 }
