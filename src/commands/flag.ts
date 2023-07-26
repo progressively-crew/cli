@@ -4,7 +4,7 @@ import { readConfig } from "../utils/config";
 import { getHttpClient } from "../utils/http";
 
 export default class Flag extends Command {
-  static description = "describe the command here";
+  static description = "Manipulate flags";
 
   static examples = ["<%= config.bin %> <%= command.id %>"];
 

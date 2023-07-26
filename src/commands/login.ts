@@ -1,23 +1,16 @@
-import { Args, Command, Flags, ux } from "@oclif/core";
+import { Command, ux } from "@oclif/core";
 import { AxiosError } from "axios";
 import { getConfigPath, readConfig, updateConfig } from "../utils/config";
 import { login } from "../utils/auth";
 
 export default class Login extends Command {
-  static description = "describe the command here";
+  static description = "Authenticate to store tokens in config";
 
   static examples = ["<%= config.bin %> <%= command.id %>"];
 
-  static flags = {
-    // flag with a value (-n, --name=VALUE)
-    name: Flags.string({ char: "n", description: "name to print" }),
-    // flag with no value (-f, --force)
-    force: Flags.boolean({ char: "f" }),
-  };
+  static flags = {};
 
-  static args = {
-    file: Args.string({ description: "file to read" }),
-  };
+  static args = {};
 
   public async run(): Promise<void> {
     const config = await readConfig();
