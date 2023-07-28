@@ -1,4 +1,5 @@
 import { Command, ux } from "@oclif/core";
+import { input, password } from "@inquirer/prompts";
 import { getHttpClient } from "../utils/http";
 import { login } from "../utils/auth";
 import { updateConfig } from "../utils/config";
@@ -15,17 +16,17 @@ export default class Register extends Command {
   public async run(): Promise<void> {
     const httpClient = await getHttpClient();
 
-    const fullname = await ux.prompt("What is your fullname?");
-    const email = await ux.prompt("What is your email?");
-    const password = await ux.prompt("What is your password?", {
-      type: "hide",
-    });
+    const fullname = await input({ message: "What is your fullname" });
+    const email = await input({ message: "What is your email" });
+    const passwordPrompt = await password({ message: "What is your password" });
+
+    ux.action.start("Authenticating");
 
     try {
       const response = await httpClient.post("/auth/register", {
         fullname,
         email,
-        password,
+        password: passwordPrompt,
       });
 
       switch (response.status) {
@@ -34,7 +35,7 @@ export default class Register extends Command {
 
           try {
             const { access_token: accessToken, refresh_token: refreshToken } =
-              await login({ email, password });
+              await login({ email, password: passwordPrompt });
 
             await updateConfig({
               access_token: accessToken,
@@ -46,6 +47,8 @@ export default class Register extends Command {
               "Registration worked but we login failed. Try to run progressively login"
             );
           }
+
+          ux.action.stop();
 
           this.log(`${user.fullname}, your account has been created 🎉`);
           break;
