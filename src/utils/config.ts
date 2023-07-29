@@ -17,7 +17,7 @@ export function getConfigPath(): string {
 export async function updateConfig(newConfig: Config): Promise<void> {
   let finalConfig = newConfig;
 
-  if (await fs.exists(CONFIG_FILE_PATH)) {
+  if (await fs.pathExists(CONFIG_FILE_PATH)) {
     const currentConfig = await fs.readJSON(CONFIG_FILE_PATH);
 
     finalConfig = { ...currentConfig, ...newConfig };
@@ -26,6 +26,10 @@ export async function updateConfig(newConfig: Config): Promise<void> {
   await fs.writeJSON(CONFIG_FILE_PATH, finalConfig);
 }
 
-export function readConfig(): Promise<Config> {
-  return fs.readJSON(CONFIG_FILE_PATH);
+export async function readConfig(): Promise<Config> {
+  if (await fs.pathExists(CONFIG_FILE_PATH)) {
+    return fs.readJSON(CONFIG_FILE_PATH);
+  }
+
+  return {};
 }
