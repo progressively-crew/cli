@@ -8,10 +8,12 @@ const hook: Hook<"init"> = async function (opts) {
   try {
     const { access_token, refresh_token } = await refreshAccessToken();
 
-    await updateConfig({
-      access_token,
-      refresh_token,
-    });
+    if (access_token && refresh_token) {
+      await updateConfig({
+        access_token,
+        refresh_token,
+      });
+    }
   } catch {
     this.log("We couldn't authenticate you. Please execute the login command");
   }
