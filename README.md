@@ -7,7 +7,7 @@ This repository contains the CLI
 - [x] Administrator account creation
 - [x] Authentication
 - [x] Project creation/deletion
-- [ ] Flag manipulation
+- [x] Flag manipulation
 - [ ] Types generation
 
 ## Summary
@@ -39,8 +39,6 @@ USAGE
 <!-- commands -->
 * [`progressively config`](#progressively-config)
 * [`progressively flag`](#progressively-flag)
-* [`progressively hello`](#progressively-hello)
-* [`progressively hello world`](#progressively-hello-world)
 * [`progressively help [COMMANDS]`](#progressively-help-commands)
 * [`progressively login`](#progressively-login)
 * [`progressively me`](#progressively-me)
@@ -85,40 +83,6 @@ EXAMPLES
 ```
 
 _See code: [dist/commands/flag.ts](https://github.com/jean-smaug/cli/blob/v0.0.0/dist/commands/flag.ts)_
-
-## `progressively hello`
-
-Say hello
-
-```
-USAGE
-  $ progressively hello
-
-DESCRIPTION
-  Say hello
-
-EXAMPLES
-  $ oex hello friend --from oclif
-  hello friend from oclif! (./src/commands/hello/index.ts)
-```
-
-_See code: [dist/commands/hello/index.ts](https://github.com/jean-smaug/cli/blob/v0.0.0/dist/commands/hello/index.ts)_
-
-## `progressively hello world`
-
-Say hello world
-
-```
-USAGE
-  $ progressively hello world
-
-DESCRIPTION
-  Say hello world
-
-EXAMPLES
-  $ progressively hello world
-  hello world! (./src/commands/hello/world.ts)
-```
 
 ## `progressively help [COMMANDS]`
 
