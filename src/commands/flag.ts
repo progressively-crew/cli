@@ -1,7 +1,9 @@
 import { Command, Flags } from "@oclif/core";
-import { input, select } from "@inquirer/prompts";
+import _ from "lodash";
+import { confirm, select } from "@inquirer/prompts";
 import { readConfig } from "../utils/config";
 import { getHttpClient } from "../utils/http";
+import * as flagUtils from "../utils/flag";
 
 export default class Flag extends Command {
   static description = "Manipulate flags";
@@ -27,16 +29,8 @@ export default class Flag extends Command {
     const httpClient = await getHttpClient(true);
 
     if (flags.create || flags["create-only"]) {
-      const name = await input({ message: "What is the name of the flag" });
-      const description = await input({
-        message: "What is the description of the flag",
-      });
-
       try {
-        await httpClient.post(`/projects/${config.project_id}/flags`, {
-          name,
-          description,
-        });
+        await flagUtils.createFlag();
       } catch (error) {
         this.error(error as Error);
       }
@@ -51,36 +45,52 @@ export default class Flag extends Command {
       httpClient.get(`/projects/${config.project_id}/environments`),
     ]);
 
-    const choices = featureFlags.map((flag: any) => ({
-      name: flag.name,
-      value: flag.uuid,
-      description: flag.description,
-    }));
+    const environmentsById = _.keyBy(environments, "uuid");
 
-    const flagId = await select({
-      message: "Which flag do you want to update ?",
-      choices,
+    const selectedFlagId = await select({
+      message: "Which feature flag do you want to update",
+      choices: featureFlags.map((featureFlag: any) => ({
+        name: featureFlag.name,
+        value: featureFlag.uuid,
+        description: featureFlag.description,
+      })),
     });
 
-    const { data: flag } = await httpClient.get(`/flags/${flagId}`);
-
-    const environmentChoices = flag.flagEnvironment.map((flagEnv: any) => ({
-      name: flagEnv.environmentId,
-      value: flagEnv.environmentId,
-    }));
-
-    const environmentId = await select({
-      message: "Which env do you want to update?",
-      choices: environmentChoices,
-    });
-
-    const { data } = await httpClient.put(
-      `/environments/${environmentId}/flags/${flagId}`,
-      {
-        status: "ACTIVATED",
-      }
+    const selectedFlag = featureFlags.find(
+      (featureFlag: any) => featureFlag.uuid === selectedFlagId
     );
 
-    console.log("🚀 ~ file: flag.ts:75 ~ Flag ~ run ~ response:", data);
+    for (const flagEnvironment of selectedFlag.flagEnvironment) {
+      const envrionment = environmentsById[flagEnvironment.environmentId];
+
+      const switchStatus = {
+        ACTIVATED: "NOT_ACTIVATED",
+        NOT_ACTIVATED: "ACTIVATED",
+      };
+
+      this.log(
+        `\nThe flag ${selectedFlag.name} is currently ${flagEnvironment.status} in ${envrionment.name}`
+      );
+
+      const switchedStatus =
+        switchStatus[flagEnvironment.status as "ACTIVATED" | "NOT_ACTIVATED"];
+
+      // eslint-disable-next-line no-await-in-loop
+      await confirm({
+        message: `Do you want to set it to ${switchedStatus}`,
+      });
+
+      // eslint-disable-next-line no-await-in-loop
+      await httpClient.put(
+        `/environments/${flagEnvironment.environmentId}/flags/${selectedFlagId}`,
+        {
+          status: switchedStatus,
+        }
+      );
+
+      this.log(
+        `The flag ${selectedFlag.name} has been updated to ${switchedStatus} in ${envrionment.name}`
+      );
+    }
   }
 }
