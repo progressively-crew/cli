@@ -10,17 +10,21 @@ This repository contains the CLI
 - [x] Flag manipulation
 - [ ] Types generation
 
+![demo-video](./docs/demo.gif)
+
 ## Summary
 
 <!-- toc -->
-* [@progressively/cli](#progressivelycli)
-* [Usage](#usage)
-* [Commands](#commands)
+
+- [@progressively/cli](#progressivelycli)
+- [Usage](#usage)
+- [Commands](#commands)
 <!-- tocstop -->
 
 # Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g @progressively/cli
 $ progressively COMMAND
@@ -32,19 +36,21 @@ USAGE
   $ progressively COMMAND
 ...
 ```
+
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-* [`progressively config`](#progressively-config)
-* [`progressively flag`](#progressively-flag)
-* [`progressively help [COMMANDS]`](#progressively-help-commands)
-* [`progressively login`](#progressively-login)
-* [`progressively me`](#progressively-me)
-* [`progressively project`](#progressively-project)
-* [`progressively register`](#progressively-register)
-* [`progressively types`](#progressively-types)
+
+- [`progressively config`](#progressively-config)
+- [`progressively flag`](#progressively-flag)
+- [`progressively help [COMMANDS]`](#progressively-help-commands)
+- [`progressively login`](#progressively-login)
+- [`progressively me`](#progressively-me)
+- [`progressively project`](#progressively-project)
+- [`progressively register`](#progressively-register)
+- [`progressively types`](#progressively-types)
 
 ## `progressively config`
 
@@ -192,4 +198,5 @@ EXAMPLES
 ```
 
 _See code: [dist/commands/types.ts](https://github.com/jean-smaug/cli/blob/v0.0.0/dist/commands/types.ts)_
+
 <!-- commandsstop -->
