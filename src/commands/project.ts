@@ -40,7 +40,7 @@ export default class Project extends Command {
 
       try {
         const { data: project } = await httpClient.delete(
-          `/projects/${projectId}`
+          `/projects/${projectId}`,
         );
 
         this.log(`${color.bold(project.name)} project has been deleted`);
@@ -60,7 +60,7 @@ export default class Project extends Command {
 
         if (shouldCreateProject === false) {
           this.log(
-            "You skipped project creation, you can still do this later or with web interface"
+            "You skipped project creation, you can still do this later or with web interface",
           );
 
           return;
@@ -83,8 +83,8 @@ export default class Project extends Command {
       this.log(
         // TODO: make command suggestion dynamic
         `You must create a project before being able to select one. You can run ${color.bold(
-          "progressively project --create"
-        )}`
+          "progressively project --create",
+        )}`,
       );
       return;
     }
@@ -108,7 +108,7 @@ export default class Project extends Command {
       });
 
       const selectedProject = projects.find(
-        ({ project }: any) => project.uuid === projectId
+        ({ project }: any) => project.uuid === projectId,
       );
 
       this.log(`Current project : ${selectedProject.project.name}`);

@@ -6,7 +6,7 @@ import { readConfig } from "./config";
  * @param withAuth should the access token be included
  */
 export async function getHttpClient(
-  withAuth?: boolean
+  withAuth?: boolean,
 ): Promise<AxiosInstance> {
   const { access_token: accessToken, base_url: baseUrl } = await readConfig();
 

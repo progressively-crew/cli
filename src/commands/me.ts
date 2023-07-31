@@ -19,7 +19,7 @@ export default class Me extends Command {
       `
 Full name : ${data.fullname}
 Email     : ${data.email}
-    `.trim()
+    `.trim(),
     );
   }
 }

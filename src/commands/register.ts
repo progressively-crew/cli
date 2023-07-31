@@ -44,7 +44,7 @@ export default class Register extends Command {
             });
           } catch {
             this.log(
-              "Registration worked but we login failed. Try to run progressively login"
+              "Registration worked but we login failed. Try to run progressively login",
             );
           }
 
@@ -54,12 +54,13 @@ export default class Register extends Command {
           break;
         }
 
-        default:
+        default: {
           break;
+        }
       }
     } catch {
       this.error(
-        "An error has been detected. Did you already create the admin user?"
+        "An error has been detected. Did you already create the admin user?",
       );
     }
   }

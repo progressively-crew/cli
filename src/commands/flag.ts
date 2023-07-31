@@ -57,7 +57,7 @@ export default class Flag extends Command {
     });
 
     const selectedFlag = featureFlags.find(
-      (featureFlag: any) => featureFlag.uuid === selectedFlagId
+      (featureFlag: any) => featureFlag.uuid === selectedFlagId,
     );
 
     for (const flagEnvironment of selectedFlag.flagEnvironment) {
@@ -69,7 +69,7 @@ export default class Flag extends Command {
       };
 
       this.log(
-        `\nThe flag ${selectedFlag.name} is currently ${flagEnvironment.status} in ${envrionment.name}`
+        `\nThe flag ${selectedFlag.name} is currently ${flagEnvironment.status} in ${envrionment.name}`,
       );
 
       const switchedStatus =
@@ -85,11 +85,11 @@ export default class Flag extends Command {
         `/environments/${flagEnvironment.environmentId}/flags/${selectedFlagId}`,
         {
           status: switchedStatus,
-        }
+        },
       );
 
       this.log(
-        `The flag ${selectedFlag.name} has been updated to ${switchedStatus} in ${envrionment.name}`
+        `The flag ${selectedFlag.name} has been updated to ${switchedStatus} in ${envrionment.name}`,
       );
     }
   }
