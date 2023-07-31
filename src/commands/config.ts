@@ -1,4 +1,4 @@
-import { Command, ux } from "@oclif/core";
+import { Command } from "@oclif/core";
 import { readConfig, updateConfig } from "../utils/config";
 import { input } from "@inquirer/prompts";
 
@@ -16,10 +16,10 @@ export default class Config extends Command {
 
     const config = await readConfig();
 
-    const baseUrl = await ux.prompt(
-      "What is URL of your Progressively instance?",
-      { default: config.base_url }
-    );
+    const baseUrl = await input({
+      message: "What is URL of your Progressively instance",
+      default: config.base_url,
+    });
 
     await updateConfig({
       base_url: baseUrl,

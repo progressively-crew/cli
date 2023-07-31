@@ -1,6 +1,6 @@
-import { Command, Flags, ux } from "@oclif/core";
+import { Command, Flags } from "@oclif/core";
 import { color } from "@oclif/color";
-import { select, confirm } from "@inquirer/prompts";
+import { select, confirm, input } from "@inquirer/prompts";
 import { updateConfig } from "../utils/config";
 import { getHttpClient } from "../utils/http";
 
@@ -67,7 +67,9 @@ export default class Project extends Command {
         }
       }
 
-      const projectName = await ux.prompt("What is the name of your project?");
+      const projectName = await input({
+        message: "What is the name of your project",
+      });
       const httpClient = await getHttpClient(true);
 
       const { data: newProject } = await httpClient.post("/projects", {
