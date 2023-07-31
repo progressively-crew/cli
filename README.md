@@ -8,7 +8,7 @@ This repository contains the CLI
 - [x] Authentication
 - [x] Project creation/deletion
 - [x] Flag manipulation
-- [ ] Types generation
+- [x] Types generation
 
 ![demo-video](./docs/demo.gif)
 
