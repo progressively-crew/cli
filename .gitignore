@@ -14,3 +14,4 @@ oclif.manifest.json
 
 # TODO: put config.json elsewhere maybe
 config.json
+progressively.d.ts

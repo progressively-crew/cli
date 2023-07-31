@@ -8,6 +8,7 @@ export type Config = {
   project_id?: string;
   base_url?: string;
   email?: string;
+  client_key?: string;
 };
 
 export function getConfigPath(): string {

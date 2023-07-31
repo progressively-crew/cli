@@ -1,5 +1,6 @@
 import { Command, ux } from "@oclif/core";
 import { readConfig, updateConfig } from "../utils/config";
+import { input } from "@inquirer/prompts";
 
 export default class Config extends Command {
   static description = "Configure the Progressively CLI";
@@ -22,6 +23,15 @@ export default class Config extends Command {
 
     await updateConfig({
       base_url: baseUrl,
+    });
+
+    const clientKey = await input({
+      message: "Please enter the client key",
+      default: config.client_key,
+    });
+
+    await updateConfig({
+      client_key: clientKey,
     });
 
     await this.config.runCommand("login");
