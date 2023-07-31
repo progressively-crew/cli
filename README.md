@@ -184,14 +184,19 @@ _See code: [dist/commands/register.ts](https://github.com/jean-smaug/cli/blob/v0
 
 ## `progressively types`
 
-describe the command here
+Generate types based on your Progressively instance
 
 ```
 USAGE
-  $ progressively types
+  $ progressively types [-N <value>] [-O <value>]
+
+FLAGS
+  -N, --name=<value>    [default: progressively.d.ts] Name of the generated types file
+  -O, --output=<value>  [default: /Users/mblanc/Localdev/progressivcli] Relative path of the folder where the types file
+                        should be generated
 
 DESCRIPTION
-  describe the command here
+  Generate types based on your Progressively instance
 
 EXAMPLES
   $ progressively types
