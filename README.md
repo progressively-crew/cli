@@ -12,6 +12,13 @@ This repository contains the CLI
 
 ![demo-video](./docs/demo.gif)
 
+## Quickstart
+
+```bash
+npm i -g @progressively/cli
+progressively duck
+```
+
 ## Summary
 
 <!-- toc -->
@@ -44,6 +51,7 @@ USAGE
 <!-- commands -->
 
 - [`progressively config`](#progressively-config)
+- [`progressively duck`](#progressively-duck)
 - [`progressively flag`](#progressively-flag)
 - [`progressively help [COMMANDS]`](#progressively-help-commands)
 - [`progressively login`](#progressively-login)
@@ -67,7 +75,24 @@ EXAMPLES
   $ progressively config
 ```
 
-_See code: [dist/commands/config.ts](https://github.com/jean-smaug/cli/blob/v0.0.0/dist/commands/config.ts)_
+_See code: [dist/commands/config.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/config.ts)_
+
+## `progressively duck`
+
+Try it, you won't regret it
+
+```
+USAGE
+  $ progressively duck
+
+DESCRIPTION
+  Try it, you won't regret it
+
+EXAMPLES
+  $ progressively duck
+```
+
+_See code: [dist/commands/duck.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/duck.ts)_
 
 ## `progressively flag`
 
@@ -88,7 +113,7 @@ EXAMPLES
   $ progressively flag
 ```
 
-_See code: [dist/commands/flag.ts](https://github.com/jean-smaug/cli/blob/v0.0.0/dist/commands/flag.ts)_
+_See code: [dist/commands/flag.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/flag.ts)_
 
 ## `progressively help [COMMANDS]`
 
@@ -125,7 +150,7 @@ EXAMPLES
   $ progressively login
 ```
 
-_See code: [dist/commands/login.ts](https://github.com/jean-smaug/cli/blob/v0.0.0/dist/commands/login.ts)_
+_See code: [dist/commands/login.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/login.ts)_
 
 ## `progressively me`
 
@@ -142,7 +167,7 @@ EXAMPLES
   $ progressively me
 ```
 
-_See code: [dist/commands/me.ts](https://github.com/jean-smaug/cli/blob/v0.0.0/dist/commands/me.ts)_
+_See code: [dist/commands/me.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/me.ts)_
 
 ## `progressively project`
 
@@ -163,7 +188,7 @@ EXAMPLES
   $ progressively project
 ```
 
-_See code: [dist/commands/project.ts](https://github.com/jean-smaug/cli/blob/v0.0.0/dist/commands/project.ts)_
+_See code: [dist/commands/project.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/project.ts)_
 
 ## `progressively register`
 
@@ -180,7 +205,7 @@ EXAMPLES
   $ progressively register
 ```
 
-_See code: [dist/commands/register.ts](https://github.com/jean-smaug/cli/blob/v0.0.0/dist/commands/register.ts)_
+_See code: [dist/commands/register.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/register.ts)_
 
 ## `progressively types`
 
@@ -202,6 +227,6 @@ EXAMPLES
   $ progressively types
 ```
 
-_See code: [dist/commands/types.ts](https://github.com/jean-smaug/cli/blob/v0.0.0/dist/commands/types.ts)_
+_See code: [dist/commands/types.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/types.ts)_
 
 <!-- commandsstop -->
