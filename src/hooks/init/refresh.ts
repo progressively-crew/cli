@@ -2,8 +2,10 @@ import { Hook } from "@oclif/core";
 import { refreshAccessToken } from "../../utils/auth";
 import { updateConfig } from "../../utils/config";
 
+const commandsToSkip = new Set(["login", "duck"]);
+
 const hook: Hook<"init"> = async function (opts) {
-  if (opts.id === "login") return;
+  if (opts.id && commandsToSkip.has(opts.id)) return;
 
   try {
     const { access_token, refresh_token } = await refreshAccessToken();
