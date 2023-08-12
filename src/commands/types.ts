@@ -1,5 +1,6 @@
 import { Command, Flags } from "@oclif/core";
 import fsPromises from "node:fs/promises";
+import prettier from "prettier";
 import { getHttpClient } from "../utils/http";
 import { readConfig } from "../utils/config";
 
@@ -36,7 +37,9 @@ export default class Types extends Command {
 
     const targetFilePath = `${flags.output}/${flags.name}`;
 
-    await fsPromises.writeFile(targetFilePath, data);
+    const formattedData = await prettier.format(data, { parser: "typescript" });
+
+    await fsPromises.writeFile(targetFilePath, formattedData);
 
     this.log(`Your types file has been generated at ${targetFilePath}`);
   }
