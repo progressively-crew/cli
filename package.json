@@ -39,6 +39,7 @@
     "/oclif.manifest.json"
   ],
   "dependencies": {
+    "@changesets/cli": "^2.26.2",
     "@inquirer/prompts": "^3.0.1",
     "@oclif/color": "^1.0.10",
     "@oclif/core": "^2",
