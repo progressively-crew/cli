@@ -53,7 +53,7 @@
     "prettier": "^3.0.1"
   },
   "devDependencies": {
-    "@oclif/test": "^2.4.2",
+    "@oclif/test": "^2.4.4",
     "@types/chai": "^4",
     "@types/mocha": "^10.0.1",
     "@types/node": "^20.4.6",
