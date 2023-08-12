@@ -4,12 +4,34 @@
   "description": "CLI to manage Progressively feature flags",
   "author": "Maxime BLANC @jean-smaug",
   "bin": {
-    "progressively": "./bin/run"
+    "progressively": "./bin/run",
+    "psy": "./bin/run"
   },
-  "homepage": "https://github.com/jean-smaug/cli",
+  "oclif": {
+    "bin": "progressively",
+    "binAliases": [
+      "progressively",
+      "psy"
+    ],
+    "dirname": "progressively",
+    "commands": "./dist/commands",
+    "plugins": [
+      "@oclif/plugin-help"
+    ],
+    "topicSeparator": " ",
+    "topics": {
+      "hello": {
+        "description": "Say hello to the world and others"
+      }
+    },
+    "hooks": {
+      "init": "./dist/hooks/init/refresh"
+    }
+  },
+  "homepage": "https://github.com/progressively-crew/cli",
   "license": "MIT",
   "main": "dist/index.js",
-  "repository": "jean-smaug/cli",
+  "repository": "progressively-crew/cli",
   "files": [
     "/bin",
     "/dist",
@@ -54,23 +76,6 @@
   "overrides": {
     "@types/cacheable-request": "8.3.2"
   },
-  "oclif": {
-    "bin": "progressively",
-    "dirname": "progressively",
-    "commands": "./dist/commands",
-    "plugins": [
-      "@oclif/plugin-help"
-    ],
-    "topicSeparator": " ",
-    "topics": {
-      "hello": {
-        "description": "Say hello to the world and others"
-      }
-    },
-    "hooks": {
-      "init": "./dist/hooks/init/refresh"
-    }
-  },
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",
     "lint": "eslint . --ext .ts --config .eslintrc",
@@ -82,7 +87,7 @@
     "update": "npm-check-updates --interactive"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=16.0.0"
   },
   "bugs": "https://github.com/jean-smaug/cli/issues",
   "keywords": [
