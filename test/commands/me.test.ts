@@ -2,16 +2,17 @@ import { expect, test } from "@oclif/test";
 
 describe("me", () => {
   test
+    .nock("https://api.progressively.app", (api) =>
+      api
+        .get("/users/me")
+        .reply(200, { fullname: "Jean Smaug", email: "jean@smaug.fr" }),
+    )
     .stdout()
     .command(["me"])
-    .it("runs hello", (ctx) => {
-      expect(ctx.stdout).to.contain("hello world");
-    });
-
-  test
-    .stdout()
-    .command(["me", "--name", "jeff"])
-    .it("runs hello --name jeff", (ctx) => {
-      expect(ctx.stdout).to.contain("hello jeff");
+    .it("should display user's informations", (ctx) => {
+      expect(ctx.stdout).to.contain(`
+Full name : Jean Smaug
+Email     : jean@smaug.fr
+`);
     });
 });

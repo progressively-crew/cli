@@ -68,6 +68,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-unicorn": "^48.0.1",
     "mocha": "^10.2.0",
+    "nock": "^13.3.2",
     "npm-check-updates": "16.10.18",
     "oclif": "^3.11.3",
     "shx": "^0.3.4",
