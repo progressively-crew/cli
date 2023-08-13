@@ -10,14 +10,16 @@ This repository contains the CLI
 - [x] Flag manipulation
 - [x] Types generation
 
-![demo-video](./docs/demo.gif)
-
 ## Quickstart
 
 ```bash
 npm i -g @progressively/cli
 progressively duck
 ```
+
+## Demo
+
+![demo-video](./docs/demo.gif)
 
 ## Summary
 
