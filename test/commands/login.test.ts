@@ -8,7 +8,7 @@ describe("login", () => {
 
   before(() => {
     configUtilsMock = Sinon.mock(configUtils);
-    configUtilsMock.expects("updateConfig").twice();
+    configUtilsMock.expects("updateConfig").thrice();
   });
 
   after(() => {

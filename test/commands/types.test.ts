@@ -2,6 +2,8 @@ import { expect, test } from "@oclif/test";
 import sinon from "sinon";
 import fsPromises from "node:fs/promises";
 
+process.cwd = () => "/mock-current-folder";
+
 describe("types", () => {
   const fsPromisesMock = sinon.mock(fsPromises);
   fsPromisesMock
