@@ -1,6 +1,9 @@
 import * as fs from "fs-extra";
 
-const CONFIG_FILE_PATH = `${process.cwd()}/config.json`;
+const CONFIG_FILE_PATH =
+  process.env.NODE_ENV === "test"
+    ? "/mock-current-folder/config.json"
+    : `${process.cwd()}/config.json`;
 
 export type Config = {
   access_token?: string;
