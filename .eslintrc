@@ -1,6 +1,11 @@
 {
-  "extends": ["oclif", "oclif-typescript", "plugin:prettier/recommended"],
-  "plugins": ["prettier"],
+  "extends": [
+    "oclif",
+    "oclif-typescript",
+    "plugin:prettier/recommended",
+    "plugin:sonarjs/recommended"
+  ],
+  "plugins": ["prettier", "sonarjs"],
   "rules": {
     "quotes": "off",
     "semi": "off",

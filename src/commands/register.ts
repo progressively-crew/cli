@@ -29,34 +29,27 @@ export default class Register extends Command {
         password: passwordPrompt,
       });
 
-      switch (response.status) {
-        case 201: {
-          const { data: user } = response;
+      if (response.status === 201) {
+        const { data: user } = response;
 
-          try {
-            const { access_token: accessToken, refresh_token: refreshToken } =
-              await login({ email, password: passwordPrompt });
+        try {
+          const { access_token: accessToken, refresh_token: refreshToken } =
+            await login({ email, password: passwordPrompt });
 
-            await updateConfig({
-              access_token: accessToken,
-              refresh_token: refreshToken,
-              email,
-            });
-          } catch {
-            this.log(
-              "Registration worked but we login failed. Try to run progressively login",
-            );
-          }
-
-          ux.action.stop();
-
-          this.log(`${user.fullname}, your account has been created 🎉`);
-          break;
+          await updateConfig({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+            email,
+          });
+        } catch {
+          this.log(
+            "Registration worked but we login failed. Try to run progressively login",
+          );
         }
 
-        default: {
-          break;
-        }
+        ux.action.stop();
+
+        this.log(`${user.fullname}, your account has been created 🎉`);
       }
     } catch {
       this.error(
