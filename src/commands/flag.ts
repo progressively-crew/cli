@@ -31,6 +31,8 @@ export default class Flag extends Command {
     if (flags.create || flags["create-only"]) {
       try {
         await flagUtils.createFlag();
+
+        this.log("Flag created");
       } catch (error) {
         this.error(error as Error);
       }
