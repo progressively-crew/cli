@@ -3,10 +3,17 @@ import * as prompts from "@inquirer/prompts";
 import Sinon from "sinon";
 import * as configUtils from "../../src/utils/config";
 
-const configUtilsMock = Sinon.mock(configUtils);
-
 describe("register", () => {
-  configUtilsMock.expects("updateConfig").once();
+  let configUtilsMock: Sinon.SinonMock;
+
+  before(() => {
+    configUtilsMock = Sinon.mock(configUtils);
+    configUtilsMock.expects("updateConfig").twice();
+  });
+
+  after(() => {
+    configUtilsMock.restore();
+  });
 
   test
     .stdout()

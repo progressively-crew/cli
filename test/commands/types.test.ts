@@ -2,9 +2,8 @@ import { expect, test } from "@oclif/test";
 import sinon from "sinon";
 import fsPromises from "node:fs/promises";
 
-const fsPromisesMock = sinon.mock(fsPromises);
-
 describe("types", () => {
+  const fsPromisesMock = sinon.mock(fsPromises);
   fsPromisesMock
     .expects("writeFile")
     .withArgs(
@@ -19,6 +18,10 @@ describe("types", () => {
         "}\n",
     )
     .once();
+
+  after(() => {
+    fsPromisesMock.restore();
+  });
 
   test
     .nock("https://api.progressively.app", (api) =>

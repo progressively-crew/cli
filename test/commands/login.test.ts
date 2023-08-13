@@ -1,12 +1,19 @@
 import { expect, test } from "@oclif/test";
-import sinon from "sinon";
+import Sinon from "sinon";
 import * as prompts from "@inquirer/prompts";
 import * as configUtils from "../../src/utils/config";
 
-const configUtilsMock = sinon.mock(configUtils);
-
 describe("login", () => {
-  configUtilsMock.expects("updateConfig").thrice();
+  let configUtilsMock: Sinon.SinonMock;
+
+  before(() => {
+    configUtilsMock = Sinon.mock(configUtils);
+    configUtilsMock.expects("updateConfig").twice();
+  });
+
+  after(() => {
+    configUtilsMock.restore();
+  });
 
   test
     .stdout()
