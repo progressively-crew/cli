@@ -10,7 +10,8 @@ export default class Duck extends Command {
   static args = {};
 
   public async run(): Promise<void> {
-    const isFunny = process.argv.some((arg) => arg.endsWith("psy"));
+    // NOTE: check docs/adr/0001-alias-bin.md
+    const isFunny = process.argv.some((arg) => arg.endsWith("run-alias"));
 
     if (isFunny === false) {
       this.log("You just missed a great joke 😕");
