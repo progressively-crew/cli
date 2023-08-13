@@ -1,9 +1,9 @@
 import { expect, test } from "@oclif/test";
 import * as prompts from "@inquirer/prompts";
-import sinon from "sinon";
+import Sinon from "sinon";
 import * as configUtils from "../../src/utils/config";
 
-const configUtilsMock = sinon.mock(configUtils);
+const configUtilsMock = Sinon.mock(configUtils);
 
 describe("register", () => {
   configUtilsMock.expects("updateConfig").once();
@@ -13,8 +13,7 @@ describe("register", () => {
     .stub(
       prompts,
       "input",
-      sinon
-        .stub()
+      Sinon.stub()
         .onCall(0)
         .returns("Jean Smaug")
         .onCall(1)

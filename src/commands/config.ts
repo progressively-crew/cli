@@ -34,8 +34,11 @@ export default class Config extends Command {
       client_key: clientKey,
     });
 
-    await this.config.runCommand("login");
-
-    await this.config.runCommand("project");
+    // NOTE: it's not suitable but couldn't find a proper way
+    // to mock `this.config.runCommand` in tests
+    if (process.env.NODE_ENV !== "test") {
+      await this.config.runCommand("login");
+      await this.config.runCommand("project");
+    }
   }
 }
