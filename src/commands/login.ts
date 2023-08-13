@@ -55,7 +55,6 @@ export default class Login extends Command {
         `Your access token has been stored in the config located at ${getConfigPath()}`,
       );
     } catch (error) {
-      console.log("🚀 ~ file: login.ts:55 ~ Login ~ run ~ error:", error);
       if (error instanceof AxiosError) {
         switch (error.response?.status) {
           case 401: {
