@@ -28,9 +28,13 @@ export async function updateConfig(newConfig: Config): Promise<void> {
 }
 
 export async function readConfig(): Promise<Config> {
+  const defaultConfig: Config = {
+    base_url: "https://api.progressively.app",
+  };
+
   if (await fs.pathExists(CONFIG_FILE_PATH)) {
-    return fs.readJSON(CONFIG_FILE_PATH);
+    return { ...defaultConfig, ...fs.readJSON(CONFIG_FILE_PATH) };
   }
 
-  return {};
+  return defaultConfig;
 }
