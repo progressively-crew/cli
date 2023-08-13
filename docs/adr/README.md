@@ -1,3 +1,3 @@
-# Compte-rendu de Décision d’Architecture
+# Architecture Decision Records
 
 * [1. alias-bin](0001-alias-bin.md)
