@@ -2,7 +2,7 @@ import { Hook } from "@oclif/core";
 import { refreshAccessToken } from "../../utils/auth";
 import { updateConfig } from "../../utils/config";
 
-const commandsToSkip = new Set(["login", "duck"]);
+const commandsToSkip = new Set(["login", "duck", "--version"]);
 
 const hook: Hook<"init"> = async function (opts) {
   if (opts.id && commandsToSkip.has(opts.id)) return;
