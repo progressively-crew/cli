@@ -36,7 +36,8 @@ export async function readConfig(): Promise<Config> {
   };
 
   if (await fs.pathExists(CONFIG_FILE_PATH)) {
-    return { ...defaultConfig, ...fs.readJSON(CONFIG_FILE_PATH) };
+    const localConfig = await fs.readJSON(CONFIG_FILE_PATH);
+    return { ...defaultConfig, ...localConfig };
   }
 
   return defaultConfig;
