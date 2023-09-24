@@ -99,7 +99,7 @@ export default class Project extends Command {
         ? choices[0].value
         : await select({
             message: "Which project do you want to manage",
-            choices: choices,
+            choices,
           });
 
     if (projectId) {
