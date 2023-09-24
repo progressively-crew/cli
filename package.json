@@ -42,7 +42,7 @@
     "@changesets/cli": "^2.26.2",
     "@inquirer/prompts": "^3.0.4",
     "@oclif/color": "^1.0.11",
-    "@oclif/core": "^2.11.10",
+    "@oclif/core": "^2.15.0",
     "@oclif/plugin-help": "^5.2.18",
     "@types/axios": "^0.14.0",
     "@types/fs-extra": "^11.0.2",
