@@ -1,11 +1,14 @@
+import { confirm, select } from "@inquirer/prompts";
 import { Command, Flags } from "@oclif/core";
 import _ from "lodash";
-import { confirm, select } from "@inquirer/prompts";
+
 import { readConfig } from "../utils/config";
-import { getHttpClient } from "../utils/http";
 import * as flagUtils from "../utils/flag";
+import { getHttpClient } from "../utils/http";
 
 export default class Flag extends Command {
+  static args = {};
+
   static description = "Manipulate flags";
 
   static examples = ["<%= config.bin %> <%= command.id %>"];
@@ -19,8 +22,6 @@ export default class Flag extends Command {
       description: "Only create a flag",
     }),
   };
-
-  static args = {};
 
   public async run(): Promise<void> {
     const { flags } = await this.parse(Flag);
@@ -50,12 +51,12 @@ export default class Flag extends Command {
     const environmentsById = _.keyBy(environments, "uuid");
 
     const selectedFlagId = await select({
-      message: "Which feature flag do you want to update",
       choices: featureFlags.map((featureFlag: any) => ({
+        description: featureFlag.description,
         name: featureFlag.name,
         value: featureFlag.uuid,
-        description: featureFlag.description,
       })),
+      message: "Which feature flag do you want to update",
     });
 
     const selectedFlag = featureFlags.find(

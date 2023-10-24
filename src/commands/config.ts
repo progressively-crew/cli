@@ -1,15 +1,16 @@
-import { Command } from "@oclif/core";
-import { readConfig, updateConfig } from "../utils/config";
 import { input } from "@inquirer/prompts";
+import { Command } from "@oclif/core";
+
+import { readConfig, updateConfig } from "../utils/config";
 
 export default class Config extends Command {
+  static args = {};
+
   static description = "Configure the Progressively CLI";
 
   static examples = ["<%= config.bin %> <%= command.id %>"];
 
   static flags = {};
-
-  static args = {};
 
   public async run(): Promise<void> {
     this.log("You'll start the configuration of the Progressively CLI");
@@ -17,8 +18,8 @@ export default class Config extends Command {
     const config = await readConfig();
 
     const baseUrl = await input({
-      message: "What is URL of your Progressively instance",
       default: config.base_url,
+      message: "What is URL of your Progressively instance",
     });
 
     await updateConfig({
@@ -26,8 +27,8 @@ export default class Config extends Command {
     });
 
     const clientKey = await input({
-      message: "Please enter the client key",
       default: config.client_key,
+      message: "Please enter the client key",
     });
 
     await updateConfig({

@@ -1,31 +1,32 @@
 import { Command, Flags } from "@oclif/core";
 import fsPromises from "node:fs/promises";
 import prettier from "prettier";
-import { getHttpClient } from "../utils/http";
+
 import { readConfig } from "../utils/config";
+import { getHttpClient } from "../utils/http";
 
 export default class Types extends Command {
+  static args = {};
+
   static description = "Generate types based on your Progressively instance";
 
   static examples = ["<%= config.bin %> <%= command.id %>"];
 
   static flags = {
     name: Flags.string({
-      required: false,
-      default: "progressively.d.ts",
       char: "N",
+      default: "progressively.d.ts",
       description: "Name of the generated types file",
+      required: false,
     }),
     output: Flags.string({
-      required: false,
-      default: process.cwd(),
       char: "O",
+      default: process.cwd(),
       description:
         "Relative path of the folder where the types file should be generated",
+      required: false,
     }),
   };
-
-  static args = {};
 
   public async run(): Promise<void> {
     const { flags } = await this.parse(Types);

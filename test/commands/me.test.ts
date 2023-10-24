@@ -5,7 +5,7 @@ describe("me", () => {
     .nock("https://api.progressively.app", (api) =>
       api
         .get("/users/me")
-        .reply(200, { fullname: "Jean Smaug", email: "jean@smaug.fr" }),
+        .reply(200, { email: "jean@smaug.fr", fullname: "Jean Smaug" }),
     )
     .stdout()
     .command(["me"])

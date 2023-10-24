@@ -1,17 +1,18 @@
-import { Command, ux } from "@oclif/core";
 import { input, password } from "@inquirer/prompts";
-import { getHttpClient } from "../utils/http";
+import { Command, ux } from "@oclif/core";
+
 import { login } from "../utils/auth";
 import { updateConfig } from "../utils/config";
+import { getHttpClient } from "../utils/http";
 
 export default class Register extends Command {
+  static args = {};
+
   static description = "Register an admin user";
 
   static examples = ["<%= config.bin %> <%= command.id %>"];
 
   static flags = {};
-
-  static args = {};
 
   public async run(): Promise<void> {
     const httpClient = await getHttpClient();
@@ -24,8 +25,8 @@ export default class Register extends Command {
 
     try {
       const response = await httpClient.post("/auth/register", {
-        fullname,
         email,
+        fullname,
         password: passwordPrompt,
       });
 
@@ -38,8 +39,8 @@ export default class Register extends Command {
 
           await updateConfig({
             access_token: accessToken,
-            refresh_token: refreshToken,
             email,
+            refresh_token: refreshToken,
           });
         } catch {
           this.log(

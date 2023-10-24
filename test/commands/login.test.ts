@@ -1,6 +1,7 @@
+import * as prompts from "@inquirer/prompts";
 import { expect, test } from "@oclif/test";
 import Sinon from "sinon";
-import * as prompts from "@inquirer/prompts";
+
 import * as configUtils from "../../src/utils/config";
 
 describe("login", () => {

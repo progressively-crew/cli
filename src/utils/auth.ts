@@ -13,8 +13,8 @@ export async function login({
   const {
     data: { access_token, refresh_token },
   } = await httpClient.post("/auth/login", {
-    username: email,
     password,
+    username: email,
   });
 
   return {

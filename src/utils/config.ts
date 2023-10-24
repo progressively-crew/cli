@@ -7,11 +7,11 @@ const CONFIG_FILE_PATH =
 
 export type Config = {
   access_token?: string;
-  refresh_token?: string;
-  project_id?: string;
   base_url?: string;
-  email?: string;
   client_key?: string;
+  email?: string;
+  project_id?: string;
+  refresh_token?: string;
 };
 
 export function getConfigPath(): string {

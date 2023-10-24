@@ -1,13 +1,13 @@
 import { Command } from "@oclif/core";
 
 export default class Duck extends Command {
+  static args = {};
+
   static description = "Try it, you won't regret it";
 
   static examples = ["<%= config.bin %> <%= command.id %>"];
 
   static flags = {};
-
-  static args = {};
 
   public async run(): Promise<void> {
     // NOTE: check docs/adr/0001-alias-bin.md

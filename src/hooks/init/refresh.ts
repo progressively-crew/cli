@@ -1,4 +1,5 @@
 import { Hook } from "@oclif/core";
+
 import { refreshAccessToken } from "../../utils/auth";
 import { updateConfig } from "../../utils/config";
 

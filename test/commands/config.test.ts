@@ -1,7 +1,8 @@
-import { expect, test } from "@oclif/test";
 import * as prompts from "@inquirer/prompts";
-import * as configUtils from "../../src/utils/config";
+import { expect, test } from "@oclif/test";
 import Sinon from "sinon";
+
+import * as configUtils from "../../src/utils/config";
 
 describe("config", () => {
   let configUtilsMock: Sinon.SinonMock;

@@ -1,24 +1,25 @@
+import { input, password } from "@inquirer/prompts";
 import { Command, ux } from "@oclif/core";
 import { AxiosError } from "axios";
-import { getConfigPath, readConfig, updateConfig } from "../utils/config";
+
 import { login } from "../utils/auth";
-import { input, password } from "@inquirer/prompts";
+import { getConfigPath, readConfig, updateConfig } from "../utils/config";
 
 export default class Login extends Command {
+  static args = {};
+
   static description = "Authenticate to store tokens in config";
 
   static examples = ["<%= config.bin %> <%= command.id %>"];
 
   static flags = {};
 
-  static args = {};
-
   public async run(): Promise<void> {
     const config = await readConfig();
 
     const email = await input({
-      message: "What is your email",
       default: config.email,
+      message: "What is your email",
     });
 
     await updateConfig({
@@ -26,8 +27,8 @@ export default class Login extends Command {
     });
 
     const userPassword = await password({
-      message: "What is your password?",
       mask: "*",
+      message: "What is your password?",
     });
 
     try {

@@ -1,5 +1,5 @@
-import { expect, test } from "@oclif/test";
 import * as prompts from "@inquirer/prompts";
+import { expect, test } from "@oclif/test";
 // import * as configUtils from "../../src/utils/config";
 // import Sinon from "sinon";
 

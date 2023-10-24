@@ -1,4 +1,5 @@
 import { input } from "@inquirer/prompts";
+
 import { readConfig } from "./config";
 import { getHttpClient } from "./http";
 
@@ -16,7 +17,7 @@ export async function createFlag() {
   }
 
   return httpClient.post(`/projects/${project_id}/flags`, {
-    name,
     description,
+    name,
   });
 }

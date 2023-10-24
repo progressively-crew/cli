@@ -1,6 +1,6 @@
 import { expect, test } from "@oclif/test";
-import sinon from "sinon";
 import fsPromises from "node:fs/promises";
+import sinon from "sinon";
 
 process.cwd = () => "/mock-current-folder";
 
