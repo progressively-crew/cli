@@ -27,9 +27,9 @@ describe("config", () => {
         .onCall(1)
         .returns("some-client-key"),
     )
-    .nock("https://api.progressively.app", (api) => {
-      api.get("/auth/refresh").reply(200);
-    })
+    // .nock("https://api.progressively.app", (api) => {
+    //   api.get("/auth/refresh").reply(200);
+    // })
     .command(["config"])
     .it("should run the config prompts", (ctx) => {
       configUtilsMock.verify();

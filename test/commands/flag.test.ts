@@ -23,7 +23,6 @@ describe("flag", () => {
     )
     .nock("https://api.progressively.app", (api) => {
       api.post(`/projects/${MOCK_PROJECT_ID}/flags`).reply(201);
-      api.get("/auth/refresh").reply(200);
     })
     .stdout()
     .command(["flag", "--create-only"])
