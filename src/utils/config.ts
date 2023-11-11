@@ -53,10 +53,11 @@ export async function readUserConfig(): Promise<UserConfig> {
  ***********/
 
 type ProjectConfig = {
+  projectId: string;
   flags: Array<{
     name: string;
     description: string;
-    type: boolean;
+    variants?: string[];
   }>;
 };
 
