@@ -1,4 +1,9 @@
 import * as fs from "fs-extra";
+import { lilconfig } from "lilconfig";
+
+/********
+ * USER *
+ ********/
 
 const USER_CONFIG_FILE_PATH =
   process.env.NODE_ENV === "test"
@@ -41,4 +46,22 @@ export async function readUserConfig(): Promise<UserConfig> {
   }
 
   return defaultConfig;
+}
+
+/***********
+ * PROJECT *
+ ***********/
+
+type ProjectConfig = {
+  flags: Array<{
+    name: string;
+    description: string;
+    type: boolean;
+  }>;
+};
+
+export async function readProjectConfig(): Promise<ProjectConfig> {
+  const lilconfigResut = await lilconfig("progressively").search();
+
+  return lilconfigResut?.config;
 }
