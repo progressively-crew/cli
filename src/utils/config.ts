@@ -27,7 +27,7 @@ export async function updateConfig(newConfig: Config): Promise<void> {
     finalConfig = { ...currentConfig, ...newConfig };
   }
 
-  await fs.writeJSON(CONFIG_FILE_PATH, finalConfig);
+  await fs.writeJSON(CONFIG_FILE_PATH, finalConfig, { spaces: 2 });
 }
 
 export async function readConfig(): Promise<Config> {
