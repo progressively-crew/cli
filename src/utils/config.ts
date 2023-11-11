@@ -57,7 +57,11 @@ type ProjectConfig = {
   flags: Array<{
     name: string;
     description: string;
-    variants?: string[];
+    /**
+     * Variants can be an array of string if they're shared accross all environnement.
+     * Otherwise, envrionnement can be specified as key in order to have more control.
+     */
+    variants?: string[] | Record<string, string[]>;
   }>;
 };
 

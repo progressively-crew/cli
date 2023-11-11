@@ -41,14 +41,28 @@ export default class Push extends Command {
      * Variants
      */
 
-    // if (flag.variants) {
-    //   for (const variant of flag.variants) {
-    //     httpClient.post(`/projects/${projectConfig.projectId}/flags`, {
-    //       name: flag.name,
-    //       description: flag.description,
-    //     });
-    //   }
-    // }
+    for (const flag of projectConfig.flags) {
+      if (flag.variants) {
+        const foundFeatureFlag = featureFlags.find(
+          (featureFlag: any) => featureFlag.name === flag.name,
+        );
+
+        // NOTE: missing different environments
+        if (Array.isArray(flag.variants) && foundFeatureFlag) {
+          for (const variant of flag.variants) {
+            for (const flagEnvironment of foundFeatureFlag.flagEnvironment) {
+              httpClient.post(
+                `/environments/${flagEnvironment.environmentId}/flags/${foundFeatureFlag.uuid}/variants`,
+                {
+                  value: variant,
+                  rolloutPercentage: 0,
+                },
+              );
+            }
+          }
+        }
+      }
+    }
 
     ux.action.stop();
   }
