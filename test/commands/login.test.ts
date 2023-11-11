@@ -9,7 +9,7 @@ describe("login", () => {
 
   before(() => {
     configUtilsMock = Sinon.mock(configUtils);
-    configUtilsMock.expects("updateConfig").thrice();
+    configUtilsMock.expects("updateUserConfig").thrice();
   });
 
   after(() => {

@@ -24,7 +24,7 @@ describe("hooks", () => {
     })
     .hook("init", { id: "some-command-that-is-not-skiped" })
     .do((output) => {
-      configUtilsMock.expects("updateConfig").once();
+      configUtilsMock.expects("updateUserConfig").once();
       expect(output.stdout).to.contain("");
     })
     .it("should refresh token");
@@ -33,7 +33,7 @@ describe("hooks", () => {
     .stdout()
     .hook("init", { id: "duck" })
     .do((output) => {
-      configUtilsMock.expects("updateConfig").never();
+      configUtilsMock.expects("updateUserConfig").never();
       expect(output.stdout).to.contain("");
     })
     .it("shouldn't refresh token");

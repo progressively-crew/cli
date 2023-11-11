@@ -2,7 +2,7 @@ import { Command, Flags } from "@oclif/core";
 import fsPromises from "node:fs/promises";
 import prettier from "prettier";
 
-import { readConfig } from "../utils/config";
+import { readUserConfig } from "../utils/config";
 import { getHttpClient } from "../utils/http";
 
 export default class Types extends Command {
@@ -32,7 +32,7 @@ export default class Types extends Command {
     const { flags } = await this.parse(Types);
 
     const httpClient = await getHttpClient(true);
-    const { client_key } = await readConfig();
+    const { client_key } = await readUserConfig();
 
     const { data } = await httpClient.get(`/sdk/${client_key}/types/gen`);
 

@@ -2,7 +2,7 @@ import { confirm, input, select } from "@inquirer/prompts";
 import { color } from "@oclif/color";
 import { Command, Flags } from "@oclif/core";
 
-import { updateConfig } from "../utils/config";
+import { updateUserConfig } from "../utils/config";
 import { getHttpClient } from "../utils/http";
 
 export default class Project extends Command {
@@ -104,7 +104,7 @@ export default class Project extends Command {
           });
 
     if (projectId) {
-      updateConfig({
+      updateUserConfig({
         project_id: projectId,
       });
 

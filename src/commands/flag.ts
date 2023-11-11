@@ -2,7 +2,7 @@ import { confirm, select } from "@inquirer/prompts";
 import { Command, Flags } from "@oclif/core";
 import _ from "lodash";
 
-import { readConfig } from "../utils/config";
+import { readUserConfig } from "../utils/config";
 import * as flagUtils from "../utils/flag";
 import { getHttpClient } from "../utils/http";
 
@@ -26,7 +26,7 @@ export default class Flag extends Command {
   public async run(): Promise<void> {
     const { flags } = await this.parse(Flag);
 
-    const config = await readConfig();
+    const config = await readUserConfig();
     const httpClient = await getHttpClient(true);
 
     if (flags.create || flags["create-only"]) {

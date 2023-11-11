@@ -1,10 +1,10 @@
 import { input } from "@inquirer/prompts";
 
-import { readConfig } from "./config";
+import { readUserConfig } from "./config";
 import { getHttpClient } from "./http";
 
 export async function createFlag() {
-  const { project_id } = await readConfig();
+  const { project_id } = await readUserConfig();
   const httpClient = await getHttpClient(true);
 
   const name = await input({ message: "What is the name of the flag" });

@@ -8,7 +8,7 @@ const MOCK_PROJECT_ID = "mock-project-id";
 
 describe("flag", () => {
   test
-    .stub(configUtils, "readConfig", () => ({
+    .stub(configUtils, "readUserConfig", () => ({
       base_url: "https://api.progressively.app",
       project_id: MOCK_PROJECT_ID,
     }))

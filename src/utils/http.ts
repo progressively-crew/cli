@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 
-import { readConfig } from "./config";
+import { readUserConfig } from "./config";
 
 /**
  * Return an axios instance that target the progressivly backend instance defined in config
@@ -9,7 +9,8 @@ import { readConfig } from "./config";
 export async function getHttpClient(
   withAuth?: boolean,
 ): Promise<AxiosInstance> {
-  const { access_token: accessToken, base_url: baseUrl } = await readConfig();
+  const { access_token: accessToken, base_url: baseUrl } =
+    await readUserConfig();
 
   return axios.create({
     baseURL: baseUrl,

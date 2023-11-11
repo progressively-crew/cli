@@ -3,7 +3,11 @@ import { Command, ux } from "@oclif/core";
 import { AxiosError } from "axios";
 
 import { login } from "../utils/auth";
-import { getConfigPath, readConfig, updateConfig } from "../utils/config";
+import {
+  getUserConfigPath,
+  readUserConfig,
+  updateUserConfig,
+} from "../utils/config";
 
 export default class Login extends Command {
   static args = {};
@@ -15,14 +19,14 @@ export default class Login extends Command {
   static flags = {};
 
   public async run(): Promise<void> {
-    const config = await readConfig();
+    const config = await readUserConfig();
 
     const email = await input({
       default: config.email,
       message: "What is your email",
     });
 
-    await updateConfig({
+    await updateUserConfig({
       email,
     });
 
@@ -40,20 +44,20 @@ export default class Login extends Command {
           password: userPassword,
         });
 
-      await updateConfig({
+      await updateUserConfig({
         access_token: accessToken,
         refresh_token: refreshToken,
       });
 
       ux.action.stop();
 
-      await updateConfig({
+      await updateUserConfig({
         access_token: accessToken,
         refresh_token: refreshToken,
       });
 
       this.log(
-        `Your access token has been stored in the config located at ${getConfigPath()}`,
+        `Your access token has been stored in the config located at ${getUserConfigPath()}`,
       );
     } catch (error) {
       if (error instanceof AxiosError) {

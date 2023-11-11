@@ -1,7 +1,7 @@
 import { Hook } from "@oclif/core";
 
 import { refreshAccessToken } from "../../utils/auth";
-import { updateConfig } from "../../utils/config";
+import { updateUserConfig } from "../../utils/config";
 
 const commandsToSkip = new Set(["login", "duck", "config", "--version"]);
 
@@ -12,7 +12,7 @@ const hook: Hook<"init"> = async function (opts) {
     const { access_token, refresh_token } = await refreshAccessToken();
 
     if (access_token && refresh_token) {
-      await updateConfig({
+      await updateUserConfig({
         access_token,
         refresh_token,
       });

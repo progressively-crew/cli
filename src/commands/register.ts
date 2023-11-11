@@ -2,7 +2,7 @@ import { input, password } from "@inquirer/prompts";
 import { Command, ux } from "@oclif/core";
 
 import { login } from "../utils/auth";
-import { updateConfig } from "../utils/config";
+import { updateUserConfig } from "../utils/config";
 import { getHttpClient } from "../utils/http";
 
 export default class Register extends Command {
@@ -37,7 +37,7 @@ export default class Register extends Command {
           const { access_token: accessToken, refresh_token: refreshToken } =
             await login({ email, password: passwordPrompt });
 
-          await updateConfig({
+          await updateUserConfig({
             access_token: accessToken,
             email,
             refresh_token: refreshToken,

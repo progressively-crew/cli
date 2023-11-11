@@ -1,4 +1,4 @@
-import { Config, readConfig } from "./config";
+import { UserConfig, readUserConfig } from "./config";
 import { getHttpClient } from "./http";
 
 export async function login({
@@ -7,7 +7,7 @@ export async function login({
 }: {
   email: string;
   password: string;
-}): Promise<Pick<Config, "access_token" | "refresh_token">> {
+}): Promise<Pick<UserConfig, "access_token" | "refresh_token">> {
   const httpClient = await getHttpClient();
 
   const {
@@ -28,7 +28,7 @@ export async function refreshAccessToken(): Promise<{
   refresh_token: string;
 }> {
   const httpClient = await getHttpClient(true);
-  const { refresh_token: currentRefreshToken } = await readConfig();
+  const { refresh_token: currentRefreshToken } = await readUserConfig();
 
   const {
     data: { access_token, refresh_token },
