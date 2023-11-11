@@ -1,16 +1,17 @@
 import { Command, ux } from "@oclif/core";
-import { readProjectConfig } from "../utils/config";
-import { getHttpClient } from "../utils/http";
 import _ from "lodash";
 
+import { readProjectConfig } from "../utils/config";
+import { getHttpClient } from "../utils/http";
+
 export default class Push extends Command {
+  static args = {};
+
   static description = "Apply the current config to the remote server";
 
   static examples = ["<%= config.bin %> <%= command.id %>"];
 
   static flags = {};
-
-  static args = {};
 
   public async run(): Promise<void> {
     // const { flags } = await this.parse(Push);
@@ -32,8 +33,8 @@ export default class Push extends Command {
 
     for (const flag of unpushedFeatureFlags) {
       httpClient.post(`/projects/${projectConfig.projectId}/flags`, {
-        name: flag.name,
         description: flag.description,
+        name: flag.name,
       });
     }
 
@@ -54,8 +55,8 @@ export default class Push extends Command {
               httpClient.post(
                 `/environments/${flagEnvironment.environmentId}/flags/${foundFeatureFlag.uuid}/variants`,
                 {
-                  value: variant,
                   rolloutPercentage: 0,
+                  value: variant,
                 },
               );
             }

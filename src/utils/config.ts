@@ -53,16 +53,16 @@ export async function readUserConfig(): Promise<UserConfig> {
  ***********/
 
 type ProjectConfig = {
-  projectId: string;
   flags: Array<{
-    name: string;
     description: string;
+    name: string;
     /**
      * Variants can be an array of string if they're shared accross all environnement.
      * Otherwise, envrionnement can be specified as key in order to have more control.
      */
-    variants?: string[] | Record<string, string[]>;
+    variants?: Record<string, string[]> | string[];
   }>;
+  projectId: string;
 };
 
 export async function readProjectConfig(): Promise<ProjectConfig> {
