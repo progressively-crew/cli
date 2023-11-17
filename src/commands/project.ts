@@ -2,7 +2,7 @@ import { confirm, input, select } from "@inquirer/prompts";
 import { color } from "@oclif/color";
 import { Command, Flags } from "@oclif/core";
 
-import { updateUserConfig } from "../utils/config";
+import { UserConfig, readUserConfig, updateUserConfig } from "../utils/config";
 import { getHttpClient } from "../utils/http";
 
 export default class Project extends Command {
@@ -23,9 +23,9 @@ export default class Project extends Command {
     }),
   };
 
-  public async run(): Promise<void> {
+  public async run(): Promise<UserConfig | undefined> {
+    await this.guardConfig();
     const { flags } = await this.parse(Project);
-
     const httpClient = await getHttpClient(true);
 
     const { data: projects } = await httpClient.get("/projects");
@@ -104,7 +104,7 @@ export default class Project extends Command {
           });
 
     if (projectId) {
-      updateUserConfig({
+      const config = await updateUserConfig({
         project_id: projectId,
       });
 
@@ -113,6 +113,19 @@ export default class Project extends Command {
       );
 
       this.log(`Current project : ${selectedProject.project.name}`);
+
+      return config;
     }
+  }
+
+  private async guardConfig(): Promise<UserConfig> {
+    let config = await readUserConfig();
+
+    while (!config.access_token) {
+      // eslint-disable-next-line no-await-in-loop
+      config = await this.config.runCommand("login");
+    }
+
+    return config;
   }
 }

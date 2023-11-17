@@ -2,7 +2,7 @@ import { Command, Flags } from "@oclif/core";
 import fsPromises from "node:fs/promises";
 import prettier from "prettier";
 
-import { readUserConfig } from "../utils/config";
+import { UserConfig, readUserConfig } from "../utils/config";
 import { getHttpClient } from "../utils/http";
 
 export default class Types extends Command {
@@ -32,7 +32,7 @@ export default class Types extends Command {
     const { flags } = await this.parse(Types);
 
     const httpClient = await getHttpClient(true);
-    const { client_key } = await readUserConfig();
+    const { client_key } = await this.guardConfig();
 
     const { data } = await httpClient.get(`/sdk/${client_key}/types/gen`);
 
@@ -43,5 +43,15 @@ export default class Types extends Command {
     await fsPromises.writeFile(targetFilePath, formattedData);
 
     this.log(`Your types file has been generated at ${targetFilePath}`);
+  }
+
+  private async guardConfig(): Promise<UserConfig> {
+    let config = await readUserConfig();
+
+    if (!config.client_key) {
+      config = await this.config.runCommand("env");
+    }
+
+    return config;
   }
 }

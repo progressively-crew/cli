@@ -2,7 +2,7 @@ import { input, password } from "@inquirer/prompts";
 import { Command, ux } from "@oclif/core";
 
 import { login } from "../utils/auth";
-import { updateUserConfig } from "../utils/config";
+import { UserConfig, readUserConfig, updateUserConfig } from "../utils/config";
 import { getHttpClient } from "../utils/http";
 
 export default class Register extends Command {
@@ -15,6 +15,7 @@ export default class Register extends Command {
   static flags = {};
 
   public async run(): Promise<void> {
+    await this.guardConfig();
     const httpClient = await getHttpClient();
 
     const fullname = await input({ message: "What is your fullname" });
@@ -57,5 +58,16 @@ export default class Register extends Command {
         "An error has been detected. Did you already create the admin user?",
       );
     }
+  }
+
+  private async guardConfig(): Promise<UserConfig> {
+    let config = await readUserConfig();
+
+    while (!config.base_url) {
+      // eslint-disable-next-line no-await-in-loop
+      config = await this.config.runCommand("config");
+    }
+
+    return config;
   }
 }

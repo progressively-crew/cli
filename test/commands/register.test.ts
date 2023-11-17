@@ -18,6 +18,11 @@ describe("register", () => {
 
   test
     .stdout()
+    .stub(configUtils, "readUserConfig", () => ({
+      base_url: "https://api.progressively.app",
+      client_key: "abcd",
+      project_id: "1",
+    }))
     .stub(
       prompts,
       "input",

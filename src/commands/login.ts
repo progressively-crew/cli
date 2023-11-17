@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 
 import { login } from "../utils/auth";
 import {
+  UserConfig,
   getUserConfigPath,
   readUserConfig,
   updateUserConfig,
@@ -18,8 +19,8 @@ export default class Login extends Command {
 
   static flags = {};
 
-  public async run(): Promise<void> {
-    const config = await readUserConfig();
+  public async run(): Promise<UserConfig | undefined> {
+    const config = await this.guardConfig();
 
     const email = await input({
       default: config.email,
@@ -51,7 +52,7 @@ export default class Login extends Command {
 
       ux.action.stop();
 
-      await updateUserConfig({
+      const nextConfig = await updateUserConfig({
         access_token: accessToken,
         refresh_token: refreshToken,
       });
@@ -59,6 +60,8 @@ export default class Login extends Command {
       this.log(
         `Your access token has been stored in the config located at ${getUserConfigPath()}`,
       );
+
+      return nextConfig;
     } catch (error) {
       if (error instanceof AxiosError) {
         switch (error.response?.status) {
@@ -79,5 +82,16 @@ export default class Login extends Command {
         }
       }
     }
+  }
+
+  private async guardConfig(): Promise<UserConfig> {
+    let config = await readUserConfig();
+
+    while (!config.base_url) {
+      // eslint-disable-next-line no-await-in-loop
+      config = await this.config.runCommand("config");
+    }
+
+    return config;
   }
 }

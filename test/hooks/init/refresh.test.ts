@@ -16,6 +16,12 @@ describe("hooks", () => {
 
   test
     .stdout()
+    .stub(configUtils, "readUserConfig", () => ({
+      access_token: "yo",
+      base_url: "https://api.progressively.app",
+      client_key: "abcd",
+      project_id: "1",
+    }))
     .nock("https://api.progressively.app", (api) => {
       api.get("/auth/refresh").reply(200, {
         access_token: "MOCK_access_token",

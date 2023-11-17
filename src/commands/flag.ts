@@ -1,8 +1,7 @@
 import { confirm, select } from "@inquirer/prompts";
-import { Command, Flags } from "@oclif/core";
-import _ from "lodash";
+import { Command, Flags, ux } from "@oclif/core";
 
-import { readUserConfig } from "../utils/config";
+import { UserConfig, readUserConfig } from "../utils/config";
 import * as flagUtils from "../utils/flag";
 import { getHttpClient } from "../utils/http";
 
@@ -26,7 +25,7 @@ export default class Flag extends Command {
   public async run(): Promise<void> {
     const { flags } = await this.parse(Flag);
 
-    const config = await readUserConfig();
+    const config = await this.guardConfig();
     const httpClient = await getHttpClient(true);
 
     if (flags.create || flags["create-only"]) {
@@ -48,52 +47,64 @@ export default class Flag extends Command {
       httpClient.get(`/projects/${config.project_id}/environments`),
     ]);
 
-    const environmentsById = _.keyBy(environments, "uuid");
+    const currentEnv = environments.find(
+      (env: any) => env.clientKey === config.client_key,
+    );
+
+    this.log(
+      `You are about to modify feature flags status on ${currentEnv.name.toUpperCase()}`,
+    );
+
+    const localFlags = featureFlags.map((featureFlag: any) => {
+      const flagEnv = featureFlag.flagEnvironment.find(
+        (flagEnv: any) => flagEnv.environmentId === currentEnv.uuid,
+      );
+
+      return {
+        name: featureFlag.name,
+        status: flagEnv.status,
+        value: featureFlag.uuid,
+      };
+    });
 
     const selectedFlagId = await select({
-      choices: featureFlags.map((featureFlag: any) => ({
-        description: featureFlag.description,
-        name: featureFlag.name,
-        value: featureFlag.uuid,
+      choices: localFlags.map((localFlag: any) => ({
+        ...localFlag,
+        name: `${localFlag.name} (actual status ${localFlag.status})`,
       })),
       message: "Which feature flag do you want to update",
     });
 
-    const selectedFlag = featureFlags.find(
-      (featureFlag: any) => featureFlag.uuid === selectedFlagId,
+    const selectedFlag = localFlags.find(
+      (featureFlag: any) => featureFlag.value === selectedFlagId,
     );
 
-    for (const flagEnvironment of selectedFlag.flagEnvironment) {
-      const envrionment = environmentsById[flagEnvironment.environmentId];
+    const nextStatus =
+      selectedFlag.status === "ACTIVATED" ? "NOT_ACTIVATED" : "ACTIVATED";
 
-      const switchStatus = {
-        ACTIVATED: "NOT_ACTIVATED",
-        NOT_ACTIVATED: "ACTIVATED",
-      };
+    await confirm({
+      message: `Do you want to update ${selectedFlag.name} on ${currentEnv.name} to ${nextStatus}?`,
+    });
 
-      this.log(
-        `\nThe flag ${selectedFlag.name} is currently ${flagEnvironment.status} in ${envrionment.name}`,
-      );
+    ux.action.start("Switching status...");
+    await httpClient.put(
+      `/environments/${currentEnv.uuid}/flags/${selectedFlagId}`,
+      {
+        status: nextStatus,
+      },
+    );
+    ux.action.stop();
 
-      const switchedStatus =
-        switchStatus[flagEnvironment.status as "ACTIVATED" | "NOT_ACTIVATED"];
+    this.log(`The flag has been successfully`);
+  }
 
-      // eslint-disable-next-line no-await-in-loop
-      await confirm({
-        message: `Do you want to set it to ${switchedStatus}`,
-      });
+  private async guardConfig(): Promise<UserConfig> {
+    let config = await readUserConfig();
 
-      // eslint-disable-next-line no-await-in-loop
-      await httpClient.put(
-        `/environments/${flagEnvironment.environmentId}/flags/${selectedFlagId}`,
-        {
-          status: switchedStatus,
-        },
-      );
-
-      this.log(
-        `The flag ${selectedFlag.name} has been updated to ${switchedStatus} in ${envrionment.name}`,
-      );
+    if (!config.client_key) {
+      config = await this.config.runCommand("env");
     }
+
+    return config;
   }
 }
