@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 
 import { login } from "../utils/auth";
 import {
+  UserConfig,
   getUserConfigPath,
   readUserConfig,
   updateUserConfig,
@@ -19,12 +20,7 @@ export default class Login extends Command {
   static flags = {};
 
   public async run(): Promise<void> {
-    let config = await readUserConfig();
-
-    while (!config.base_url) {
-      // eslint-disable-next-line no-await-in-loop
-      config = await this.config.runCommand("config");
-    }
+    const config = await this.guardConfig();
 
     const email = await input({
       default: config.email,
@@ -88,5 +84,16 @@ export default class Login extends Command {
         }
       }
     }
+  }
+
+  private async guardConfig(): Promise<UserConfig> {
+    let config = await readUserConfig();
+
+    while (!config.base_url) {
+      // eslint-disable-next-line no-await-in-loop
+      config = await this.config.runCommand("config");
+    }
+
+    return config;
   }
 }

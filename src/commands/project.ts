@@ -25,7 +25,6 @@ export default class Project extends Command {
 
   public async run(): Promise<void> {
     const { flags } = await this.parse(Project);
-
     const httpClient = await getHttpClient(true);
 
     const { data: projects } = await httpClient.get("/projects");
@@ -104,7 +103,7 @@ export default class Project extends Command {
           });
 
     if (projectId) {
-      updateUserConfig({
+      await updateUserConfig({
         project_id: projectId,
       });
 
