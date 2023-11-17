@@ -2,6 +2,10 @@ import { expect, test } from "@oclif/test";
 import fsPromises from "node:fs/promises";
 import sinon from "sinon";
 
+import * as configUtils from "../../src/utils/config";
+
+const apiRoot = "https://api.progressively.app";
+
 process.cwd = () => "/mock-current-folder";
 
 describe("types", () => {
@@ -26,9 +30,15 @@ describe("types", () => {
   });
 
   test
-    .nock("https://api.progressively.app", (api) =>
+    .stub(configUtils, "readUserConfig", () => ({
+      access_token: "yo",
+      base_url: apiRoot,
+      client_key: "abcd",
+      project_id: "1",
+    }))
+    .nock(apiRoot, (api) =>
       api
-        .get("/sdk/undefined/types/gen")
+        .get("/sdk/abcd/types/gen")
         .reply(
           200,
           'declare module "@progressively/types" {export interface FlagDict {background: boolean;}export interface FlagDictWithCustomString {background: string | boolean;}}',

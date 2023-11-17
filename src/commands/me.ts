@@ -14,6 +14,7 @@ export default class Me extends Command {
 
   public async run(): Promise<void> {
     await this.guardConfig();
+
     const httpClient = await getHttpClient(true);
 
     const { data } = await httpClient.get("/users/me");
