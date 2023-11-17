@@ -42,17 +42,7 @@ export default class Env extends Command {
   }
 
   private async guardConfig(): Promise<UserConfig> {
-    let config = await readUserConfig();
-
-    while (!config.base_url) {
-      // eslint-disable-next-line no-await-in-loop
-      config = await this.config.runCommand("config");
-    }
-
-    while (!config.access_token) {
-      // eslint-disable-next-line no-await-in-loop
-      await this.config.runCommand("login");
-    }
+    const config = await readUserConfig();
 
     if (!config.project_id) {
       await this.config.runCommand("project");
