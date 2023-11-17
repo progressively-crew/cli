@@ -43,12 +43,5 @@ ${color.bold("Client key")} : ${color.green(config.client_key)}
     await updateUserConfig({
       base_url: baseUrl,
     });
-
-    // NOTE: it's not suitable but couldn't find a proper way
-    // to mock `this.config.runCommand` in tests
-    if (process.env.NODE_ENV !== "test") {
-      await this.config.runCommand("login");
-      await this.config.runCommand("project");
-    }
   }
 }

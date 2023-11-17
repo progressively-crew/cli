@@ -64,6 +64,10 @@ export default class Login extends Command {
       this.log(
         `Your access token has been stored in the config located at ${getUserConfigPath()}`,
       );
+
+      await this.config.runCommand("project");
+
+      this.log(`Run the environments command to switch`);
     } catch (error) {
       if (error instanceof AxiosError) {
         switch (error.response?.status) {
