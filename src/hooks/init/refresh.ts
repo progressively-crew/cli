@@ -18,7 +18,8 @@ const hook: Hook<"init"> = async function (opts) {
       });
     }
   } catch {
-    this.log("We couldn't authenticate you. Please execute the login command");
+    // silent fail for now. The user will be authenticated anyways since the
+    // commands are now cascading up
   }
 };
 
