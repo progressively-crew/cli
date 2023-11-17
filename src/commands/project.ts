@@ -23,7 +23,7 @@ export default class Project extends Command {
     }),
   };
 
-  public async run(): Promise<void> {
+  public async run(): Promise<UserConfig | undefined> {
     await this.guardConfig();
     const { flags } = await this.parse(Project);
     const httpClient = await getHttpClient(true);
@@ -104,7 +104,7 @@ export default class Project extends Command {
           });
 
     if (projectId) {
-      await updateUserConfig({
+      const config = await updateUserConfig({
         project_id: projectId,
       });
 
@@ -113,15 +113,17 @@ export default class Project extends Command {
       );
 
       this.log(`Current project : ${selectedProject.project.name}`);
+
+      return config;
     }
   }
 
   private async guardConfig(): Promise<UserConfig> {
-    const config = await readUserConfig();
+    let config = await readUserConfig();
 
     while (!config.access_token) {
       // eslint-disable-next-line no-await-in-loop
-      await this.config.runCommand("login");
+      config = await this.config.runCommand("login");
     }
 
     return config;

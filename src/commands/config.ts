@@ -2,7 +2,7 @@ import { input } from "@inquirer/prompts";
 import color from "@oclif/color";
 import { Command, Flags } from "@oclif/core";
 
-import { readUserConfig, updateUserConfig } from "../utils/config";
+import { UserConfig, readUserConfig, updateUserConfig } from "../utils/config";
 
 export default class Config extends Command {
   static args = {};
@@ -17,7 +17,7 @@ export default class Config extends Command {
     }),
   };
 
-  public async run(): Promise<void> {
+  public async run(): Promise<UserConfig | undefined> {
     const { flags } = await this.parse(Config);
     const config = await readUserConfig();
 
@@ -40,7 +40,7 @@ ${color.bold("Client key")} : ${color.green(config.client_key)}
       message: "What is URL of your Progressively instance",
     });
 
-    await updateUserConfig({
+    return updateUserConfig({
       base_url: baseUrl,
     });
   }

@@ -11,7 +11,7 @@ export default class Env extends Command {
 
   static examples = ["<%= config.bin %> <%= command.id %>"];
 
-  public async run(): Promise<void> {
+  public async run(): Promise<UserConfig | undefined> {
     const config = await this.guardConfig();
 
     const httpClient = await getHttpClient(true);
@@ -34,18 +34,20 @@ export default class Env extends Command {
       message: "Which env do you want to use?",
     });
 
-    await updateUserConfig({
+    const nextConfig = await updateUserConfig({
       client_key: String(clientKey),
     });
 
     this.log("Client key set up. You can now request your flags");
+
+    return nextConfig;
   }
 
   private async guardConfig(): Promise<UserConfig> {
-    const config = await readUserConfig();
+    let config = await readUserConfig();
 
     if (!config.project_id) {
-      await this.config.runCommand("project");
+      config = await this.config.runCommand("project");
     }
 
     return config;

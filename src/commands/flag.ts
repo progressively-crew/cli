@@ -99,10 +99,10 @@ export default class Flag extends Command {
   }
 
   private async guardConfig(): Promise<UserConfig> {
-    const config = await readUserConfig();
+    let config = await readUserConfig();
 
     if (!config.client_key) {
-      await this.config.runCommand("env");
+      config = await this.config.runCommand("env");
     }
 
     return config;

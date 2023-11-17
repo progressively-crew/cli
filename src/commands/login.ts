@@ -19,7 +19,7 @@ export default class Login extends Command {
 
   static flags = {};
 
-  public async run(): Promise<void> {
+  public async run(): Promise<UserConfig | undefined> {
     const config = await this.guardConfig();
 
     const email = await input({
@@ -52,7 +52,7 @@ export default class Login extends Command {
 
       ux.action.stop();
 
-      await updateUserConfig({
+      const nextConfig = await updateUserConfig({
         access_token: accessToken,
         refresh_token: refreshToken,
       });
@@ -61,9 +61,7 @@ export default class Login extends Command {
         `Your access token has been stored in the config located at ${getUserConfigPath()}`,
       );
 
-      await this.config.runCommand("project");
-
-      this.log(`Run the environments command to switch`);
+      return nextConfig;
     } catch (error) {
       if (error instanceof AxiosError) {
         switch (error.response?.status) {

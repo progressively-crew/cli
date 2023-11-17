@@ -18,7 +18,9 @@ export function getUserConfigPath(): string {
   return USER_CONFIG_FILE_PATH;
 }
 
-export async function updateUserConfig(newConfig: UserConfig): Promise<void> {
+export async function updateUserConfig(
+  newConfig: UserConfig,
+): Promise<UserConfig> {
   let finalConfig = newConfig;
 
   if (await fs.pathExists(USER_CONFIG_FILE_PATH)) {
@@ -28,6 +30,8 @@ export async function updateUserConfig(newConfig: UserConfig): Promise<void> {
   }
 
   await fs.writeJSON(USER_CONFIG_FILE_PATH, finalConfig, { spaces: 2 });
+
+  return finalConfig;
 }
 
 export async function readUserConfig(): Promise<UserConfig> {
