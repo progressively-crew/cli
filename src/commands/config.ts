@@ -44,15 +44,6 @@ ${color.bold("Client key")} : ${color.green(config.client_key)}
       base_url: baseUrl,
     });
 
-    const clientKey = await input({
-      default: config.client_key,
-      message: "Please enter the client key",
-    });
-
-    await updateUserConfig({
-      client_key: clientKey,
-    });
-
     // NOTE: it's not suitable but couldn't find a proper way
     // to mock `this.config.runCommand` in tests
     if (process.env.NODE_ENV !== "test") {

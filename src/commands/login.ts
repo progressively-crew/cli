@@ -19,7 +19,12 @@ export default class Login extends Command {
   static flags = {};
 
   public async run(): Promise<void> {
-    const config = await readUserConfig();
+    let config = await readUserConfig();
+
+    while (!config.base_url) {
+      // eslint-disable-next-line no-await-in-loop
+      config = await this.config.runCommand("config");
+    }
 
     const email = await input({
       default: config.email,

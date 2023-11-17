@@ -32,7 +32,12 @@ export async function updateUserConfig(newConfig: UserConfig): Promise<void> {
 
 export async function readUserConfig(): Promise<UserConfig> {
   const defaultConfig: UserConfig = {
-    base_url: "https://api.progressively.app",
+    access_token: "",
+    base_url: "",
+    client_key: "",
+    email: "",
+    project_id: "",
+    refresh_token: "",
   };
 
   if (await fs.pathExists(USER_CONFIG_FILE_PATH)) {
