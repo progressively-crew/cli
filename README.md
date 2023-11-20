@@ -24,43 +24,40 @@ progressively duck
 ## Summary
 
 <!-- toc -->
-
-- [@progressively/cli](#progressivelycli)
-- [Usage](#usage)
-- [Commands](#commands)
+* [@progressively/cli](#progressivelycli)
+* [Usage](#usage)
+* [Commands](#commands)
 <!-- tocstop -->
 
 # Usage
 
 <!-- usage -->
-
 ```sh-session
 $ npm install -g @progressively/cli
 $ progressively COMMAND
 running command...
 $ progressively (--version)
-@progressively/cli/0.0.0 darwin-x64 node-v18.15.0
+@progressively/cli/1.0.0-alpha.1 darwin-arm64 node-v18.17.1
 $ progressively --help [COMMAND]
 USAGE
   $ progressively COMMAND
 ...
 ```
-
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-
-- [`progressively config`](#progressively-config)
-- [`progressively duck`](#progressively-duck)
-- [`progressively flag`](#progressively-flag)
-- [`progressively help [COMMANDS]`](#progressively-help-commands)
-- [`progressively login`](#progressively-login)
-- [`progressively me`](#progressively-me)
-- [`progressively project`](#progressively-project)
-- [`progressively register`](#progressively-register)
-- [`progressively types`](#progressively-types)
+* [`progressively config`](#progressively-config)
+* [`progressively duck`](#progressively-duck)
+* [`progressively env`](#progressively-env)
+* [`progressively flag`](#progressively-flag)
+* [`progressively help [COMMANDS]`](#progressively-help-commands)
+* [`progressively login`](#progressively-login)
+* [`progressively me`](#progressively-me)
+* [`progressively project`](#progressively-project)
+* [`progressively register`](#progressively-register)
+* [`progressively types`](#progressively-types)
 
 ## `progressively config`
 
@@ -68,7 +65,10 @@ Configure the Progressively CLI
 
 ```
 USAGE
-  $ progressively config
+  $ progressively config [--show]
+
+FLAGS
+  --show  Display the current configuration for the user
 
 DESCRIPTION
   Configure the Progressively CLI
@@ -77,7 +77,7 @@ EXAMPLES
   $ progressively config
 ```
 
-_See code: [dist/commands/config.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/config.ts)_
+_See code: [src/commands/config.ts](https://github.com/progressively-crew/cli/blob/v1.0.0-alpha.1/src/commands/config.ts)_
 
 ## `progressively duck`
 
@@ -94,7 +94,24 @@ EXAMPLES
   $ progressively duck
 ```
 
-_See code: [dist/commands/duck.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/duck.ts)_
+_See code: [src/commands/duck.ts](https://github.com/progressively-crew/cli/blob/v1.0.0-alpha.1/src/commands/duck.ts)_
+
+## `progressively env`
+
+List the environments of the active project
+
+```
+USAGE
+  $ progressively env
+
+DESCRIPTION
+  List the environments of the active project
+
+EXAMPLES
+  $ progressively env
+```
+
+_See code: [src/commands/env.ts](https://github.com/progressively-crew/cli/blob/v1.0.0-alpha.1/src/commands/env.ts)_
 
 ## `progressively flag`
 
@@ -115,7 +132,7 @@ EXAMPLES
   $ progressively flag
 ```
 
-_See code: [dist/commands/flag.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/flag.ts)_
+_See code: [src/commands/flag.ts](https://github.com/progressively-crew/cli/blob/v1.0.0-alpha.1/src/commands/flag.ts)_
 
 ## `progressively help [COMMANDS]`
 
@@ -135,7 +152,7 @@ DESCRIPTION
   Display help for progressively.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.11/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.0.5/src/commands/help.ts)_
 
 ## `progressively login`
 
@@ -152,7 +169,7 @@ EXAMPLES
   $ progressively login
 ```
 
-_See code: [dist/commands/login.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/progressively-crew/cli/blob/v1.0.0-alpha.1/src/commands/login.ts)_
 
 ## `progressively me`
 
@@ -169,7 +186,7 @@ EXAMPLES
   $ progressively me
 ```
 
-_See code: [dist/commands/me.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/me.ts)_
+_See code: [src/commands/me.ts](https://github.com/progressively-crew/cli/blob/v1.0.0-alpha.1/src/commands/me.ts)_
 
 ## `progressively project`
 
@@ -177,7 +194,7 @@ describe the command here
 
 ```
 USAGE
-  $ progressively project [-D] [-C]
+  $ progressively project [-C] [-D]
 
 FLAGS
   -C, --create  Create a project before selection
@@ -190,7 +207,7 @@ EXAMPLES
   $ progressively project
 ```
 
-_See code: [dist/commands/project.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/project.ts)_
+_See code: [src/commands/project.ts](https://github.com/progressively-crew/cli/blob/v1.0.0-alpha.1/src/commands/project.ts)_
 
 ## `progressively register`
 
@@ -207,7 +224,7 @@ EXAMPLES
   $ progressively register
 ```
 
-_See code: [dist/commands/register.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/register.ts)_
+_See code: [src/commands/register.ts](https://github.com/progressively-crew/cli/blob/v1.0.0-alpha.1/src/commands/register.ts)_
 
 ## `progressively types`
 
@@ -219,8 +236,8 @@ USAGE
 
 FLAGS
   -N, --name=<value>    [default: progressively.d.ts] Name of the generated types file
-  -O, --output=<value>  [default: /Users/mblanc/Localdev/progressivcli] Relative path of the folder where the types file
-                        should be generated
+  -O, --output=<value>  [default: /Users/marvin/soft/cli] Relative path of the folder where the types file should be
+                        generated
 
 DESCRIPTION
   Generate types based on your Progressively instance
@@ -229,6 +246,5 @@ EXAMPLES
   $ progressively types
 ```
 
-_See code: [dist/commands/types.ts](https://github.com/progressively-crew/cli/blob/v0.0.0/dist/commands/types.ts)_
-
+_See code: [src/commands/types.ts](https://github.com/progressively-crew/cli/blob/v1.0.0-alpha.1/src/commands/types.ts)_
 <!-- commandsstop -->
