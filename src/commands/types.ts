@@ -31,8 +31,9 @@ export default class Types extends Command {
   public async run(): Promise<void> {
     const { flags } = await this.parse(Types);
 
-    const httpClient = await getHttpClient(true);
     const { client_key } = await this.guardConfig();
+
+    const httpClient = await getHttpClient(true);
 
     const { data } = await httpClient.get(`/sdk/${client_key}/types/gen`);
 
