@@ -22,8 +22,8 @@ describe("login", () => {
     .stub(prompts, "password", () => "azertyuiop")
     .stub(configUtils, "readUserConfig", () => ({
       base_url: "https://api.progressively.app",
-      client_key: "abcd",
       project_id: "1",
+      secret_key: "abcd",
     }))
     .nock("https://api.progressively.app", (api) => {
       api.post("/auth/login").reply(200, {

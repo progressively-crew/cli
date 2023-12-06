@@ -48,7 +48,7 @@ export default class Flag extends Command {
     ]);
 
     const currentEnv = environments.find(
-      (env: any) => env.clientKey === config.client_key,
+      (env: any) => env.secretKey === config.secret_key,
     );
 
     this.log(
@@ -101,7 +101,7 @@ export default class Flag extends Command {
   private async guardConfig(): Promise<UserConfig> {
     let config = await readUserConfig();
 
-    if (!config.client_key) {
+    if (!config.secret_key) {
       config = await this.config.runCommand("env");
     }
 

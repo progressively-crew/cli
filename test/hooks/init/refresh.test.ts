@@ -19,8 +19,8 @@ describe("hooks", () => {
     .stub(configUtils, "readUserConfig", () => ({
       access_token: "yo",
       base_url: "https://api.progressively.app",
-      client_key: "abcd",
       project_id: "1",
+      secret_key: "abcd",
     }))
     .nock("https://api.progressively.app", (api) => {
       api.get("/auth/refresh").reply(200, {

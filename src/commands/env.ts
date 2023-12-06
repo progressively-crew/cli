@@ -26,19 +26,19 @@ export default class Env extends Command {
       );
     }
 
-    const clientKey = await select({
+    const secretKey = await select({
       choices: envs.map((env: any) => ({
         name: env.name,
-        value: env.clientKey,
+        value: env.secretKey,
       })),
       message: "Which env do you want to use?",
     });
 
     const nextConfig = await updateUserConfig({
-      client_key: String(clientKey),
+      secret_key: String(secretKey),
     });
 
-    this.log("Client key set up. You can now request your flags");
+    this.log("Secret key set up. You can now request your flags");
 
     return nextConfig;
   }
