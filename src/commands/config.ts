@@ -26,7 +26,6 @@ export default class Config extends Command {
         `
 ${color.bold("Email")} : ${color.green(config.email)}
 ${color.bold("Backend URL")} : ${color.green(config.base_url)}
-${color.bold("Client key")} : ${color.green(config.client_key)}
         `.trim(),
       );
 

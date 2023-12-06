@@ -32,11 +32,11 @@ export default class Types extends Command {
   }
 
   public async run(): Promise<void> {
-    const { client_key } = await this.guardConfig();
+    await this.guardConfig();
 
     const httpClient = await getHttpClient(true);
 
-    const { data } = await httpClient.get(`/sdk/${client_key}/types/gen`);
+    const { data } = await httpClient.get(`/sdk/types/gen`);
 
     const formattedData = await prettier.format(data, { parser: "typescript" });
 
@@ -49,7 +49,7 @@ export default class Types extends Command {
   private async guardConfig(): Promise<UserConfig> {
     let config = await readUserConfig();
 
-    if (!config.client_key) {
+    if (!config.secret_key) {
       config = await this.config.runCommand("env");
     }
 

@@ -9,13 +9,17 @@ import { readUserConfig } from "./config";
 export async function getHttpClient(
   withAuth?: boolean,
 ): Promise<AxiosInstance> {
-  const { access_token: accessToken, base_url: baseUrl } =
-    await readUserConfig();
+  const {
+    access_token: accessToken,
+    base_url: baseUrl,
+    secret_key,
+  } = await readUserConfig();
 
   return axios.create({
     baseURL: baseUrl,
     headers: {
       Authorization: withAuth ? `Bearer ${accessToken}` : undefined,
+      "x-api-key": secret_key,
     },
   });
 }

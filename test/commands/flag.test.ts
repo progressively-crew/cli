@@ -10,8 +10,8 @@ describe("flag", () => {
   test
     .stub(configUtils, "readUserConfig", () => ({
       base_url: "https://api.progressively.app",
-      client_key: "abcd",
       project_id: MOCK_PROJECT_ID,
+      secret_key: "abcd",
     }))
     .stub(
       prompts,
