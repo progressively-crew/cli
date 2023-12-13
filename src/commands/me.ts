@@ -6,7 +6,7 @@ import { getHttpClient } from "../utils/http";
 export default class Me extends Command {
   static args = {};
 
-  static description = "describe the command here";
+  static description = "Provide fullname and email of the current user";
 
   static examples = ["<%= config.bin %> <%= command.id %>"];
 

@@ -8,7 +8,7 @@ import { getHttpClient } from "../utils/http";
 export default class Project extends Command {
   static args = {};
 
-  static description = "describe the command here";
+  static description = "Manage project (select current, create or delete one)";
 
   static examples = ["<%= config.bin %> <%= command.id %>"];
 
