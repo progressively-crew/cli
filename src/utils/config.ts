@@ -1,4 +1,9 @@
 import * as fs from "fs-extra";
+import { lilconfig } from "lilconfig";
+
+/********
+ * USER *
+ ********/
 
 const USER_CONFIG_FILE_PATH =
   process.env.NODE_ENV === "test"
@@ -50,4 +55,27 @@ export async function readUserConfig(): Promise<UserConfig> {
   }
 
   return defaultConfig;
+}
+
+/***********
+ * PROJECT *
+ ***********/
+
+type ProjectConfig = {
+  flags: Array<{
+    description: string;
+    name: string;
+    /**
+     * Variants can be an array of string if they're shared accross all environnement.
+     * Otherwise, envrionnement can be specified as key in order to have more control.
+     */
+    variants?: Record<string, string[]> | string[];
+  }>;
+  projectId: string;
+};
+
+export async function readProjectConfig(): Promise<ProjectConfig> {
+  const lilconfigResut = await lilconfig("progressively").search();
+
+  return lilconfigResut?.config;
 }
