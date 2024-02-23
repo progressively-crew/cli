@@ -1,6 +1,6 @@
 {
   "name": "@progressively/cli",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.5",
   "description": "CLI to manage Progressively feature flags",
   "author": "Maxime BLANC @jean-smaug",
   "bin": {
