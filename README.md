@@ -50,7 +50,6 @@ USAGE
 <!-- commands -->
 * [`progressively config`](#progressively-config)
 * [`progressively duck`](#progressively-duck)
-* [`progressively env`](#progressively-env)
 * [`progressively flag`](#progressively-flag)
 * [`progressively help [COMMANDS]`](#progressively-help-commands)
 * [`progressively login`](#progressively-login)
@@ -95,23 +94,6 @@ EXAMPLES
 ```
 
 _See code: [src/commands/duck.ts](https://github.com/progressively-crew/cli/blob/v1.0.0-alpha.4/src/commands/duck.ts)_
-
-## `progressively env`
-
-List the environments of the active project
-
-```
-USAGE
-  $ progressively env
-
-DESCRIPTION
-  List the environments of the active project
-
-EXAMPLES
-  $ progressively env
-```
-
-_See code: [src/commands/env.ts](https://github.com/progressively-crew/cli/blob/v1.0.0-alpha.4/src/commands/env.ts)_
 
 ## `progressively flag`
 
