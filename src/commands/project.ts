@@ -104,8 +104,15 @@ export default class Project extends Command {
           });
 
     if (projectId) {
+      const userProject = projects.find(
+        ({ project }: any) => project.uuid === projectId,
+      );
+
+      const { secretKey } = userProject.project;
+
       const config = await updateUserConfig({
         project_id: projectId,
+        secret_key: secretKey,
       });
 
       const selectedProject = projects.find(

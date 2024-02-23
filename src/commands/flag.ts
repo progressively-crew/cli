@@ -42,27 +42,14 @@ export default class Flag extends Command {
       }
     }
 
-    const [{ data: featureFlags }, { data: environments }] = await Promise.all([
-      httpClient.get(`/projects/${config.project_id}/flags`),
-      httpClient.get(`/projects/${config.project_id}/environments`),
-    ]);
-
-    const currentEnv = environments.find(
-      (env: any) => env.secretKey === config.secret_key,
-    );
-
-    this.log(
-      `You are about to modify feature flags status on ${currentEnv.name.toUpperCase()}`,
+    const { data: featureFlags } = await httpClient.get(
+      `/projects/${config.project_id}/flags`,
     );
 
     const localFlags = featureFlags.map((featureFlag: any) => {
-      const flagEnv = featureFlag.flagEnvironment.find(
-        (flagEnv: any) => flagEnv.environmentId === currentEnv.uuid,
-      );
-
       return {
         name: featureFlag.name,
-        status: flagEnv.status,
+        status: featureFlag.status,
         value: featureFlag.uuid,
       };
     });
@@ -83,16 +70,13 @@ export default class Flag extends Command {
       selectedFlag.status === "ACTIVATED" ? "NOT_ACTIVATED" : "ACTIVATED";
 
     await confirm({
-      message: `Do you want to update ${selectedFlag.name} on ${currentEnv.name} to ${nextStatus}?`,
+      message: `Do you want to update ${selectedFlag.name} to ${nextStatus}?`,
     });
 
     ux.action.start("Switching status...");
-    await httpClient.put(
-      `/environments/${currentEnv.uuid}/flags/${selectedFlagId}`,
-      {
-        status: nextStatus,
-      },
-    );
+    await httpClient.put(`/flags/${selectedFlagId}`, {
+      status: nextStatus,
+    });
     ux.action.stop();
 
     this.log(`The flag has been successfully`);
@@ -102,7 +86,7 @@ export default class Flag extends Command {
     let config = await readUserConfig();
 
     if (!config.secret_key) {
-      config = await this.config.runCommand("env");
+      config = await this.config.runCommand("project");
     }
 
     return config;

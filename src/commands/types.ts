@@ -50,7 +50,7 @@ export default class Types extends Command {
     let config = await readUserConfig();
 
     if (!config.secret_key) {
-      config = await this.config.runCommand("env");
+      config = await this.config.runCommand("project");
     }
 
     return config;
